@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/image_processing_generate_messages_cpp"
-  "/home/madhan/soccer_ws/devel/include/image_processing/bot_state.h"
-  "/home/madhan/soccer_ws/devel/include/image_processing/ball.h"
-  "/home/madhan/soccer_ws/devel/include/image_processing/ball_predict.h"
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/devel/include/image_processing/bot_state.h"
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/devel/include/image_processing/ball.h"
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/devel/include/image_processing/ball_predict.h"
 )
 
 # Per-language clean rules from dependency scanning.

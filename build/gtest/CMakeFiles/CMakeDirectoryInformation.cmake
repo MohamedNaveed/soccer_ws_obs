@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/usr/src/gtest")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/madhan/soccer_ws/build")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

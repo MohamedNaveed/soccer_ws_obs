@@ -1,8 +1,8 @@
-# Install script for directory: /home/madhan/soccer_ws/src
+# Install script for directory: /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/madhan/soccer_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -44,81 +44,81 @@ endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/madhan/soccer_ws/install/_setup_util.py")
+   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install/_setup_util.py")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/madhan/soccer_ws/install" TYPE PROGRAM FILES "/home/madhan/soccer_ws/build/catkin_generated/installspace/_setup_util.py")
+file(INSTALL DESTINATION "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install" TYPE PROGRAM FILES "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/catkin_generated/installspace/_setup_util.py")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/madhan/soccer_ws/install/env.sh")
+   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install/env.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/madhan/soccer_ws/install" TYPE PROGRAM FILES "/home/madhan/soccer_ws/build/catkin_generated/installspace/env.sh")
+file(INSTALL DESTINATION "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install" TYPE PROGRAM FILES "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/catkin_generated/installspace/env.sh")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/madhan/soccer_ws/install/setup.bash")
+   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install/setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/madhan/soccer_ws/install" TYPE FILE FILES "/home/madhan/soccer_ws/build/catkin_generated/installspace/setup.bash")
+file(INSTALL DESTINATION "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install" TYPE FILE FILES "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/catkin_generated/installspace/setup.bash")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/madhan/soccer_ws/install/setup.sh")
+   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install/setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/madhan/soccer_ws/install" TYPE FILE FILES "/home/madhan/soccer_ws/build/catkin_generated/installspace/setup.sh")
+file(INSTALL DESTINATION "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install" TYPE FILE FILES "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/catkin_generated/installspace/setup.sh")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/madhan/soccer_ws/install/setup.zsh")
+   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install/setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/madhan/soccer_ws/install" TYPE FILE FILES "/home/madhan/soccer_ws/build/catkin_generated/installspace/setup.zsh")
+file(INSTALL DESTINATION "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install" TYPE FILE FILES "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/catkin_generated/installspace/setup.zsh")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/madhan/soccer_ws/install/.rosinstall")
+   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/madhan/soccer_ws/install" TYPE FILE FILES "/home/madhan/soccer_ws/build/catkin_generated/installspace/.rosinstall")
+file(INSTALL DESTINATION "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install" TYPE FILE FILES "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/catkin_generated/installspace/.rosinstall")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/madhan/soccer_ws/build/gtest/cmake_install.cmake")
-  include("/home/madhan/soccer_ws/build/control/cmake_install.cmake")
-  include("/home/madhan/soccer_ws/build/image_processing/cmake_install.cmake")
+  include("/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/gtest/cmake_install.cmake")
+  include("/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/control/cmake_install.cmake")
+  include("/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/image_processing/cmake_install.cmake")
 
 endif()
 
@@ -130,5 +130,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/madhan/soccer_ws/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

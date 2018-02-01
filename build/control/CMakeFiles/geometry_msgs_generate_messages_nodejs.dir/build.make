@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/madhan/soccer_ws/src
+CMAKE_SOURCE_DIR = /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/madhan/soccer_ws/build
+CMAKE_BINARY_DIR = /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build
 
 # Utility rule file for geometry_msgs_generate_messages_nodejs.
 
@@ -63,10 +63,10 @@ control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build: geometry_ms
 .PHONY : control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/build
 
 control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/clean:
-	cd /home/madhan/soccer_ws/build/control && $(CMAKE_COMMAND) -P CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
+	cd /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/control && $(CMAKE_COMMAND) -P CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/cmake_clean.cmake
 .PHONY : control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/clean
 
 control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/depend:
-	cd /home/madhan/soccer_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/madhan/soccer_ws/src /home/madhan/soccer_ws/src/control /home/madhan/soccer_ws/build /home/madhan/soccer_ws/build/control /home/madhan/soccer_ws/build/control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/control /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/control /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : control/CMakeFiles/geometry_msgs_generate_messages_nodejs.dir/depend
 

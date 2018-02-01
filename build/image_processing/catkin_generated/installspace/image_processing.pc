@@ -1,8 +1,8 @@
-prefix=/home/madhan/soccer_ws/install
+prefix=/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install
 
 Name: image_processing
 Description: Description of image_processing
 Version: 0.0.0
-Cflags: -I/home/madhan/soccer_ws/install/include
-Libs: -L/home/madhan/soccer_ws/install/lib 
+Cflags: -I/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install/include
+Libs: -L/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install/lib 
 Requires: message_runtime roscpp rospy std_msgs

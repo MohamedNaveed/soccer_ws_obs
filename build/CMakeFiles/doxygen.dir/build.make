@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/madhan/soccer_ws/src
+CMAKE_SOURCE_DIR = /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/madhan/soccer_ws/build
+CMAKE_BINARY_DIR = /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build
 
 # Utility rule file for doxygen.
 
@@ -67,6 +67,6 @@ CMakeFiles/doxygen.dir/clean:
 .PHONY : CMakeFiles/doxygen.dir/clean
 
 CMakeFiles/doxygen.dir/depend:
-	cd /home/madhan/soccer_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/madhan/soccer_ws/src /home/madhan/soccer_ws/src /home/madhan/soccer_ws/build /home/madhan/soccer_ws/build /home/madhan/soccer_ws/build/CMakeFiles/doxygen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/CMakeFiles/doxygen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/doxygen.dir/depend
 

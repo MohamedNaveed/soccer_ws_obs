@@ -1,8 +1,8 @@
-# Install script for directory: /home/madhan/soccer_ws/src/control
+# Install script for directory: /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/control
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/madhan/soccer_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -33,17 +33,17 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/madhan/soccer_ws/build/control/catkin_generated/installspace/control.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/control/catkin_generated/installspace/control.pc")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/control/cmake" TYPE FILE FILES
-    "/home/madhan/soccer_ws/build/control/catkin_generated/installspace/controlConfig.cmake"
-    "/home/madhan/soccer_ws/build/control/catkin_generated/installspace/controlConfig-version.cmake"
+    "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/control/catkin_generated/installspace/controlConfig.cmake"
+    "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/control/catkin_generated/installspace/controlConfig-version.cmake"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/control" TYPE FILE FILES "/home/madhan/soccer_ws/src/control/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/control" TYPE FILE FILES "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/control/package.xml")
 endif()
 

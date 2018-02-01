@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/madhan/soccer_ws/src
+CMAKE_SOURCE_DIR = /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/madhan/soccer_ws/build
+CMAKE_BINARY_DIR = /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build
 
 # Utility rule file for image_processing_gennodejs.
 
@@ -63,10 +63,10 @@ image_processing/CMakeFiles/image_processing_gennodejs.dir/build: image_processi
 .PHONY : image_processing/CMakeFiles/image_processing_gennodejs.dir/build
 
 image_processing/CMakeFiles/image_processing_gennodejs.dir/clean:
-	cd /home/madhan/soccer_ws/build/image_processing && $(CMAKE_COMMAND) -P CMakeFiles/image_processing_gennodejs.dir/cmake_clean.cmake
+	cd /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/image_processing && $(CMAKE_COMMAND) -P CMakeFiles/image_processing_gennodejs.dir/cmake_clean.cmake
 .PHONY : image_processing/CMakeFiles/image_processing_gennodejs.dir/clean
 
 image_processing/CMakeFiles/image_processing_gennodejs.dir/depend:
-	cd /home/madhan/soccer_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/madhan/soccer_ws/src /home/madhan/soccer_ws/src/image_processing /home/madhan/soccer_ws/build /home/madhan/soccer_ws/build/image_processing /home/madhan/soccer_ws/build/image_processing/CMakeFiles/image_processing_gennodejs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/image_processing /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/image_processing/CMakeFiles/image_processing_gennodejs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : image_processing/CMakeFiles/image_processing_gennodejs.dir/depend
 

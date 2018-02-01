@@ -4,5 +4,5 @@ PROJECT_PKG_CONFIG_INCLUDE_DIRS = "".split(';') if "" != "" else []
 PROJECT_CATKIN_DEPENDS = "".replace(';', ' ')
 PKG_CONFIG_LIBRARIES_WITH_PREFIX = "".split(';') if "" != "" else []
 PROJECT_NAME = "control"
-PROJECT_SPACE_DIR = "/home/madhan/soccer_ws/install"
+PROJECT_SPACE_DIR = "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install"
 PROJECT_VERSION = "0.0.0"

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/image_processing_generate_messages_lisp"
-  "/home/madhan/soccer_ws/devel/share/common-lisp/ros/image_processing/msg/bot_state.lisp"
-  "/home/madhan/soccer_ws/devel/share/common-lisp/ros/image_processing/msg/ball.lisp"
-  "/home/madhan/soccer_ws/devel/share/common-lisp/ros/image_processing/msg/ball_predict.lisp"
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/devel/share/common-lisp/ros/image_processing/msg/bot_state.lisp"
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/devel/share/common-lisp/ros/image_processing/msg/ball.lisp"
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/devel/share/common-lisp/ros/image_processing/msg/ball_predict.lisp"
 )
 
 # Per-language clean rules from dependency scanning.

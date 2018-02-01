@@ -3,6 +3,8 @@ import cv2
 import ip_module
 import numpy as np
 import rospy
+import pathPlanning 
+
 from image_processing.msg import ball
 from image_processing.msg import ball_predict
 from image_processing.msg import bot_state
@@ -12,8 +14,8 @@ SOFT_LIMIT_NEGATIVE = 400
 
 if __name__=="__main__":
     try:
-	
-	
+
+
         ball_object = ip_module.Ball()
         flag = 0
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
@@ -23,12 +25,12 @@ if __name__=="__main__":
         rate = rospy.Rate(ball_object.fps)
         centroid = (0,0)
         centroid_small = (0,0)
-	
+
 	mat = np.zeros((12, 18), dtype=np.uint64)
-		
+
 
         while not rospy.is_shutdown():
-            
+
 	    original_image = ball_object.get_image()
             image = ball_object.perspective_transform(original_image,ball_object.pts_in_img,ball_object.pts_reqd)
 	    im2 = image
@@ -45,7 +47,7 @@ if __name__=="__main__":
             #     flag = 1
             #     break
             contours,hierarchy = ball_object.find_contours(thresh)
-	    
+
             for i in range(len(contours)):
 		c = contours[i]
 	        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
@@ -76,8 +78,8 @@ if __name__=="__main__":
                                 if area_small > 150 and area_small < 600:
                                     centroid_small = ball_object.get_center(cropped_contours[j])
 			#if count != 3 :
-				
-			  
+
+
                         yaw_angle = ball_object.get_yaw_angle(40,40,centroid_small[0],centroid_small[1])
                         # print "State: ", centroid[0],centroid[1],yaw_angle
                         # print "Count: ",count
@@ -89,12 +91,13 @@ if __name__=="__main__":
                         # bot_msg.pose.theta = 120
                         rospy.loginfo(bot_msg)
                         state_publisher.publish(bot_msg)
-		
+
  		#for i in range(12):
 		#	mat.append(row)
 	    	im2,MAT = ball_object.draw_grid(im2,int(x_grid_num),int(y_grid_num))
 		mat = mat | MAT
-
+		mat[1][1]=2
+		mat[10][10]=3
 		print x_grid_num,y_grid_num
 
 	    print "Printing mat..."
@@ -103,8 +106,15 @@ if __name__=="__main__":
 		for j in range(18):
 			s += str(mat[i][j]) + " "
 		print s
-	        
-            hsv_image = ball_object.rgb2hsv(image)
+	    
+	    route_length, route_path=pathPlanning.play(mat)
+	    print "route length = ", route_length
+    	    print "route path   = ", route_path
+	    
+	    mat=np.zeros((12, 18), dtype=np.uint64)
+	    pathPlanning.curve_fit(np.asarray(route_path))
+            
+	    hsv_image = ball_object.rgb2hsv(image)
             mask_ball = ball_object.get_hsv_mask(hsv_image,ball_object.lower_ball,ball_object.upper_ball)
             contours_ball,hierarchy = ball_object.find_contours(mask_ball)
 

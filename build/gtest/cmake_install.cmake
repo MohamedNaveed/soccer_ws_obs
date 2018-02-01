@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/madhan/soccer_ws/install")
+  set(CMAKE_INSTALL_PREFIX "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

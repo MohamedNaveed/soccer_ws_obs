@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/madhan/soccer_ws/src
+CMAKE_SOURCE_DIR = /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/madhan/soccer_ws/build
+CMAKE_BINARY_DIR = /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build
 
 # Utility rule file for run_tests.
 
@@ -67,6 +67,6 @@ CMakeFiles/run_tests.dir/clean:
 .PHONY : CMakeFiles/run_tests.dir/clean
 
 CMakeFiles/run_tests.dir/depend:
-	cd /home/madhan/soccer_ws/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/madhan/soccer_ws/src /home/madhan/soccer_ws/src /home/madhan/soccer_ws/build /home/madhan/soccer_ws/build /home/madhan/soccer_ws/build/CMakeFiles/run_tests.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build /home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/build/CMakeFiles/run_tests.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/run_tests.dir/depend
 
