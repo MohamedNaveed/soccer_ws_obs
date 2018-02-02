@@ -97,7 +97,7 @@ if __name__=="__main__":
 	    	im2,MAT = ball_object.draw_grid(im2,int(x_grid_num),int(y_grid_num))
 		mat = mat | MAT
 		mat[1][1]=2
-		mat[10][10]=3
+		mat[11][17]=3
 		print x_grid_num,y_grid_num
 
 	    print "Printing mat..."

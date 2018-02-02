@@ -65,9 +65,11 @@ class Astar(object):
                     self.start = self.cell(i, j)
                 if(grid[i][j] == 3):
                     self.end = self.cell(i, j)
+	print "initialised"
 
     def cell(self, x, y):
         # returns the location to identify each cell
+	
         return self.cells[x*columns+y]
 
     def cell_heuristic(self, cell):
@@ -77,14 +79,24 @@ class Astar(object):
     def neighbour(self, cell):
         cells = []
         # returns a list of neigbours of a cell
-        if cell.x < columns - 1:
+        if cell.x < rows - 1:
             cells.append(self.cell(cell.x+1, cell.y))
         if cell.x > 0:
             cells.append(self.cell(cell.x-1, cell.y))
-        if cell.y < rows-1:
+        if cell.y < columns-1:
             cells.append(self.cell(cell.x, cell.y+1))
         if cell.y > 0:
             cells.append(self.cell(cell.x, cell.y-1))
+	if cell.x < rows-1 and cell.y < columns-1:
+	    cells.append(self.cell(cell.x+1, cell.y+1))
+	if cell.x < rows-1 and cell.y > 0:
+	    cells.append(self.cell(cell.x+1, cell.y-1))
+	if cell.x > 0 and cell.y < columns-1:
+	    cells.append(self.cell(cell.x-1, cell.y+1))
+	if cell.x > 0 and cell.y > 0:
+	    cells.append(self.cell(cell.x-1, cell.y-1))	
+	
+	
         return cells
 
     def update_cell(self, adj, cell):
@@ -102,7 +114,7 @@ class Astar(object):
         cell = self.end
         while cell.parent is not None:
             # storing the parents in list from end to start
-            route_path.append([(cell.y)+1, (cell.x)+1])
+            route_path.append([(cell.x), (cell.y)])
             cell = cell.parent
             count += 1
         return route_path, count
@@ -117,6 +129,7 @@ class Astar(object):
             if cell is self.end:
                 # store path and path legth
                 route_path, route_length = self.display_path()
+		route_path.append([self.start.x, self.start.y])
                 route_path.reverse()
                 break
             # getting the adjoint cells
@@ -152,16 +165,34 @@ def curve_fit(points):
 	y = points[:,1]
 
 	# calculate polynomial
-	z = np.polyfit(x, y, 17)
+	z = np.polyfit(x, y, 5)
+	#print "z:", z
 	f = np.poly1d(z)
 
 	# calculate new x's and y's
 	x_new = np.linspace(x[0], x[-1], 50)
 	y_new = f(x_new)
+	time_x=np.zeros(len(x))
+	for i in range(len(x)):
+		time_x[i]=i+1
+	
+	order = 6
+	x_coeff = np.polyfit(time_x, x, order)
+	func_x = np.poly1d(x_coeff)
+	func_x_dot = func_x.deriv()
 
-	plt.plot(x,y,'o', x_new, y_new)
-	plt.xlim([x[0]-1, x[-1] + 1 ])
+	time_x_new = np.linspace(time_x[0], time_x[-1], 1000)
+	new_x = func_x(time_x_new)
+	new_x_dot = func_x_dot(time_x_new)
+	print "velocity:", new_x_dot
+	#x_dot = func_x.diff
+	plt.plot(time_x, x, 'o', time_x_new, new_x, time_x_new, new_x_dot, 'x')
+	plt.xlim([time_x[0]-1, time_x[-1] + 1 ])
+	plt.ylim([0, 15 ])
 	plt.show()
+	#plt.plot(x,y,'o', x_new, y_new)
+	#plt.xlim([x[0]-1, x[-1] + 1 ])
+	#plt.show()
 
 """if __name__ == "__main__":
     # code for checking output for single image
