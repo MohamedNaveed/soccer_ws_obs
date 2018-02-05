@@ -67,8 +67,8 @@ class IP(object):
         return cv2.moments(contour)
 
     def crop_image(self,image,center,amount):
-        print int(center[1])-amount,int(center[0])-amount
-        print int(center[1])+amount,int(center[0])+amount
+        #print int(center[1])-amount,int(center[0])-amount
+        #print int(center[1])+amount,int(center[0])+amount
         if int(center[1])-amount >= 0 and int(center[0])-amount >= 0:
             if int(center[1])+amount <= FINAL_HEIGHT and int(center[0])+amount <= FINAL_WIDTH:
                 img = image[(int(center[1])-amount):(int(center[1])+amount),(int(center[0])-amount):(int(center[0])+amount)]
@@ -118,10 +118,10 @@ class IP(object):
 	MAT = np.copy(mat)
 	#print "MAT.shape", MAT.shape
 	return im2,MAT
-	
+    '''	
     def point_polygon_test(self,contour,pt,measureDist):
 	return cv2.pointPolygonTest(contour, pt, measureDist)
-
+    '''
 class detectRobot(IP):
 
     def __init__(self):

@@ -17,7 +17,7 @@ bot_1=0001
 
 class robot:
 
-    def __init__(self,init_state=0,number=0,ip=0,port=0):
+    def __init__(self,init_state=[0, 0, 0],number=0,ip=0,port=0):
 	
         self.state = init_state   #provide from IP
         self.bot_number = number   #give numbers to each robot T1_1 T2_1 etc..
@@ -58,6 +58,7 @@ class robot:
 	
     #Finds wheel velocities for given (v_x,v_y,w)
     #Returns 1 if data is sent to robot else returns 0
+    '''
     def move(self,x_dot,y_dot,w,solenoid,dribbler):
         # print "velocities:",(x_dot,y_dot,w)
         vel_w_1 = ((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
@@ -108,15 +109,16 @@ class robot:
 	print "I'm here too"
         print message
         return self.send(message)
+    '''
 
     def update_state(self,given_state):
         self.state = given_state;
 
     def go_to_goal(self,x_dot,y_dot,w,solenoid=0,dribbler=0):
-        vel_w_1 = ((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
-        vel_w_2 = ((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
-        vel_w_3 = ((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius;
-        # print "Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
+        vel_w_1 = 120*(((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
+        vel_w_2 = 60*(((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel
+        vel_w_3 = 60*(((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel  
+	print "Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
         max_val = max(abs(vel_w_1),abs(vel_w_2),abs(vel_w_3))
         # print max_val
         if round(max_val,0) == abs(round(vel_w_1,0)) and round(max_val,0) == abs(round(vel_w_2,0)) and round(max_val,0) == abs(round(vel_w_3,0)):
@@ -158,6 +160,11 @@ class robot:
                 vel_w_3 -= MIN_VEL_GTG
         if(vel_w_1 > 255 or vel_w_2 > 255 or vel_w_3 > 255):
             print "   Error                  "
+	'''
+	vel_w_1 = 255
+	vel_w_2 = 255
+	vel_w_3 = 255
+	'''
         message = str(int(vel_w_1))+":"+str(int(vel_w_2))+":"+str(int(vel_w_3))+":"+str(solenoid)+":"+str(dribbler)+":"
         print message
         return self.send(message)

@@ -3,7 +3,9 @@ import cv2
 import ip_module
 import numpy as np
 import rospy
-import pathPlanning 
+import pathPlanning
+import robot
+import time
 
 from image_processing.msg import ball
 from image_processing.msg import ball_predict
@@ -17,6 +19,7 @@ if __name__=="__main__":
 
 
         ball_object = ip_module.Ball()
+	Robot = robot.robot()
         flag = 0
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
         ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=1)
@@ -26,21 +29,21 @@ if __name__=="__main__":
         centroid = (0,0)
         centroid_small = (0,0)
 
-	mat = np.zeros((12, 18), dtype=np.uint64)
+        mat = np.zeros((12, 18), dtype=np.uint64)
 
 
         while not rospy.is_shutdown():
+            original_image = ball_object.get_image()
 
-	    original_image = ball_object.get_image()
             image = ball_object.perspective_transform(original_image,ball_object.pts_in_img,ball_object.pts_reqd)
-	    im2 = image
-	    X = im2.shape[1]
-	    Y = im2.shape[0]
-	    start_x = 0
-	    start_y = 0
-	    end_x = X/18
-	    end_y = Y/12
-	    #im2 = ball_object.draw_grid(im2)
+            im2 = image
+            X = im2.shape[1]
+            Y = im2.shape[0]
+            start_x = 0
+            start_y = 0
+            end_x = X/18
+            end_y = Y/12
+            #im2 = ball_object.draw_grid(im2)
             imageGray = ball_object.rgb2gray(image)
             ret,thresh = ball_object.threshold_image(imageGray,250,255)
             # if not ball_object.display_image(thresh,"thresh"):
@@ -49,14 +52,15 @@ if __name__=="__main__":
             contours,hierarchy = ball_object.find_contours(thresh)
 
             for i in range(len(contours)):
-		c = contours[i]
-	        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
+                c = contours[i]
+    	        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
                 area = ball_object.find_area(contours[i])
-                # print i,area
+                #print i,area
+
                 if area > 3300 and area < 5000:
                     centroid = ball_object.get_center(contours[i])
 
-		    x_grid_num,y_grid_num = centroid[0]/end_x , centroid[1]/end_y
+                    x_grid_num, y_grid_num = centroid[0]/end_x, centroid[1]/end_y
 
                     if centroid != -1:
                         _,thresh = ball_object.threshold_image(imageGray,220,255)
@@ -77,7 +81,7 @@ if __name__=="__main__":
 
                                 if area_small > 150 and area_small < 600:
                                     centroid_small = ball_object.get_center(cropped_contours[j])
-			#if count != 3 :
+    			#if count != 3 :
 
 
                         yaw_angle = ball_object.get_yaw_angle(40,40,centroid_small[0],centroid_small[1])
@@ -94,27 +98,31 @@ if __name__=="__main__":
 
  		#for i in range(12):
 		#	mat.append(row)
-	    	im2,MAT = ball_object.draw_grid(im2,int(x_grid_num),int(y_grid_num))
-		mat = mat | MAT
-		mat[1][1]=2
-		mat[11][17]=3
-		print x_grid_num,y_grid_num
+                    im2,MAT = ball_object.draw_grid(im2,int(x_grid_num),int(y_grid_num))
+                    mat = mat | MAT
+                mat[1][1]=2
+                mat[11][17]=3
 
-	    print "Printing mat..."
-	    for i in range(12):
-		s = ""
-		for j in range(18):
-			s += str(mat[i][j]) + " "
-		print s
-	    
-	    route_length, route_path=pathPlanning.play(mat)
-	    print "route length = ", route_length
-    	    print "route path   = ", route_path
-	    
-	    mat=np.zeros((12, 18), dtype=np.uint64)
-	    pathPlanning.curve_fit(np.asarray(route_path))
+
+            print "Printing mat..."
+            for i in range(12):
+                s = ""
+                for j in range(18):
+                    s += str(mat[i][j]) + " "
+                print s
+
+    	    route_length, route_path=pathPlanning.play(mat)
+    	    print "route length = ", route_length
+            print "route path   = ", route_path
+
+    	    mat=np.zeros((12, 18), dtype=np.uint64)
+    	    x_dot,y_dot = pathPlanning.curve_fit(np.asarray(route_path))
             
-	    hsv_image = ball_object.rgb2hsv(image)
+            for ij in range(len(x_dot)):
+            	Robot.go_to_goal(x_dot[ij],y_dot[ij],0,0,0)
+		time.sleep(route_length/len(x_dot))
+
+    	    hsv_image = ball_object.rgb2hsv(image)
             mask_ball = ball_object.get_hsv_mask(hsv_image,ball_object.lower_ball,ball_object.upper_ball)
             contours_ball,hierarchy = ball_object.find_contours(mask_ball)
 
@@ -123,9 +131,9 @@ if __name__=="__main__":
                 # print i,area
                 if area > 60:
                     centroid_ball = ball_object.get_center(contours_ball[i])
-		    #i,j=5,5
-		    #cnt = cv2.rectangle(im2,(start_x+(X/9)*i,start_y+(Y/6)*j),(end_x+(X/9)*i,end_y+(Y/6)*j),(0,0,255))
-		    #print point_polygon_test(cnt,centroid_ball,False)
+    		    #i,j=5,5
+    		    #cnt = cv2.rectangle(im2,(start_x+(X/9)*i,start_y+(Y/6)*j),(end_x+(X/9)*i,end_y+(Y/6)*j),(0,0,255))
+    		    #print point_polygon_test(cnt,centroid_ball,False)
                     if centroid_ball == -1:
                         break
                     ball_object.update_state(centroid_ball[0],centroid_ball[1])
@@ -133,7 +141,7 @@ if __name__=="__main__":
                     if ball_object.abs_vel() > 10:
                         ball_object.draw_arrow(image)
 
-                # imaginary lines
+                    # imaginary lines
                 ball_object.prediction_lines(image)
 
                 ball_msg = ball()
@@ -145,12 +153,12 @@ if __name__=="__main__":
                 ball_state_publisher.publish(ball_msg)
 
                 msg = ball_predict()
-                # print ball_object.get_prediction(image)
+                    # print ball_object.get_prediction(image)
                 destination = ball_object.get_prediction(image)
                 print destination
                 if destination == -1:
-                     msg.predicted_x = -1
-                     msg.predicted_y = -1
+                    msg.predicted_x = -1
+                    msg.predicted_y = -1
                 elif (((ball_msg.vx**(2) + ball_msg.vy**(2))**(0.5)) < 50):
                     if ((ball_msg.vx > 0 and ball_msg.x > SOFT_LIMIT_POSITIVE) or (ball_msg.vx < 0 and ball_msg.y < SOFT_LIMIT_NEGATIVE)) and (((ball_msg.vx**(2) + ball_msg.vy**(2))**(0.5)) > 15):
                         msg.predicted_x = destination[0]
@@ -172,6 +180,6 @@ if __name__=="__main__":
             rate.sleep()
 
             if flag == 1:
-                    break
+                break
     except rospy.ROSInterruptException:
         pass
