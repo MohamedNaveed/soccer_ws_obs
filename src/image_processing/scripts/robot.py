@@ -11,7 +11,7 @@ from time import sleep
 WHEEL_RADIUS = 5   #cm
 BOT_RADIUS = 13.5  #cm
 MIN_VEL = 30
-MIN_VEL_GTG = 85
+MIN_VEL_GTG = 110
 bot_1=0001
 #ser = serial.Serial('/dev/ttyUSB0',115200)
 
@@ -50,11 +50,11 @@ class robot:
 	'''
 	  # Your serial port name here
 	xbee = XBee.XBee("/dev/ttyACM0",115200)
-	print "b4 send"
+	#print "b4 send"
     	xbee.SendStr(message,0x0001)
     	sleep(0.25)	
         #xbee.SendStr(message,0x0002)
-	print "after"
+	#print "after"
 	
     #Finds wheel velocities for given (v_x,v_y,w)
     #Returns 1 if data is sent to robot else returns 0
@@ -114,31 +114,30 @@ class robot:
     def update_state(self,given_state):
         self.state = given_state;
 
-    def go_to_goal(self,x_dot,y_dot,w,solenoid=0,dribbler=0):
-        vel_w_1 = 120*(((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
-        vel_w_2 = 60*(((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel
-        vel_w_3 = 60*(((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel  
+    def go_to_goal(self,x_dot = 0,y_dot = 2,w = 0,solenoid=0,dribbler=0):
+        vel_w_1 = (((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
+        vel_w_2 = (((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel
+        vel_w_3 = (((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel  
 	print "Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
         max_val = max(abs(vel_w_1),abs(vel_w_2),abs(vel_w_3))
         # print max_val
         if round(max_val,0) == abs(round(vel_w_1,0)) and round(max_val,0) == abs(round(vel_w_2,0)) and round(max_val,0) == abs(round(vel_w_3,0)):
-            vel_w_1 = (vel_w_1)*(255-80)/6.0
-            vel_w_2 = (vel_w_2)*(255-80)/6.0
-            vel_w_3 = (vel_w_3)*(255-80)/6.0
+            vel_w_1 = (vel_w_1)*(255-MIN_VEL_GTG)/6.0
+            vel_w_2 = (vel_w_2)*(255-MIN_VEL_GTG)/6.0
+            vel_w_3 = (vel_w_3)*(255-MIN_VEL_GTG)/6.0
             # print "wheel_velocities: ",vel_w_1,vel_w_2,vel_w_3
             if vel_w_1 > 0:
-                vel_w_1 += 80
+                vel_w_1 += MIN_VEL_GTG
             else:
-                vel_w_1 -= 80
+                vel_w_1 -= MIN_VEL_GTG
             if vel_w_2 > 0:
-                vel_w_2 += 80
+                vel_w_2 += MIN_VEL_GTG
             else:
-                vel_w_2 -= 80
+                vel_w_2 -= MIN_VEL_GTG
             if vel_w_3 > 0 :
-                vel_w_3 += 80
+                vel_w_3 += MIN_VEL_GTG
             else:
-                vel_w_3 -= 80
-
+                vel_w_3 -= MIN_VEL_GTG
         else:
             # print "I'm here too"
             vel_w_1 /= 41; vel_w_2 /= 41; vel_w_3 /= 41;
@@ -158,13 +157,20 @@ class robot:
                 vel_w_3 += MIN_VEL_GTG
             else:
                 vel_w_3 -= MIN_VEL_GTG
+
         if(vel_w_1 > 255 or vel_w_2 > 255 or vel_w_3 > 255):
-            print "   Error                  "
-	'''
-	vel_w_1 = 255
-	vel_w_2 = 255
-	vel_w_3 = 255
-	'''
-        message = str(int(vel_w_1))+":"+str(int(vel_w_2))+":"+str(int(vel_w_3))+":"+str(solenoid)+":"+str(dribbler)+":"
-        print message
+            print "   Error    "
+	    if (vel_w_1>255):
+	        vel_w_1 = 255
+	    if (vel_w_2>255):
+	        vel_w_2 = 255
+	    if (vel_w_3>255):
+	        vel_w_3 = 255
+	
+	vel_w_1 = 0
+	vel_w_2 = 0
+	vel_w_3 = 118
+	
+        message = str(int((vel_w_1 - (vel_w_1>255)*(vel_w_1%255))+500))+":"+str(int((vel_w_2 - (vel_w_2>255)*(vel_w_2%255))+500))+":"+str(int((vel_w_3 - (vel_w_3>255)*(vel_w_3%255))+500))+":"+str(solenoid)+":"+str(dribbler)+":"
+        print vel_w_1 , ":" , vel_w_2 , ":" ,vel_w_3 , ":" ,solenoid, ":" , dribbler
         return self.send(message)

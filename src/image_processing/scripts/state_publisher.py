@@ -21,6 +21,10 @@ if __name__=="__main__":
         ball_object = ip_module.Ball()
 	Robot = robot.robot()
         flag = 0
+	flag2 = 1
+	bot3_x = 1
+	bot3_y = 1
+	
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
         ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=1)
         ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=1)
@@ -30,6 +34,7 @@ if __name__=="__main__":
         centroid_small = (0,0)
 
         mat = np.zeros((12, 18), dtype=np.uint64)
+	MAT = np.zeros((12, 18), dtype=np.uint64)
 
 
         while not rospy.is_shutdown():
@@ -55,7 +60,7 @@ if __name__=="__main__":
                 c = contours[i]
     	        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
                 area = ball_object.find_area(contours[i])
-                #print i,area
+                print i,area
 
                 if area > 3300 and area < 5000:
                     centroid = ball_object.get_center(contours[i])
@@ -81,8 +86,21 @@ if __name__=="__main__":
 
                                 if area_small > 150 and area_small < 600:
                                     centroid_small = ball_object.get_center(cropped_contours[j])
-    			#if count != 3 :
+    			#print "count = ", count 
+			if count == 3 :
+			    if flag2 == 1:
 
+		                bot3_x, bot3_y = centroid[0]/end_x, centroid[1]/end_y
+				print "BOT 3" , bot3_x , bot3_y
+			        mat[int(bot3_y)][int(bot3_x)]=2
+			        flag2 = 0
+                            #print "b4 update bot"
+                            ball_object.update_bot_state(centroid[0],centroid[1])
+			    print "bot velocity from frame = ", ball_object.get_velocity_bot()                            
+
+			else :
+			    #print "b4 MAT" , count 
+			    im2,MAT = ball_object.draw_grid(im2,int(x_grid_num),int(y_grid_num))
 
                         yaw_angle = ball_object.get_yaw_angle(40,40,centroid_small[0],centroid_small[1])
                         # print "State: ", centroid[0],centroid[1],yaw_angle
@@ -98,9 +116,9 @@ if __name__=="__main__":
 
  		#for i in range(12):
 		#	mat.append(row)
-                    im2,MAT = ball_object.draw_grid(im2,int(x_grid_num),int(y_grid_num))
+                    
                     mat = mat | MAT
-                mat[1][1]=2
+                
                 mat[11][17]=3
 
 
@@ -115,12 +133,13 @@ if __name__=="__main__":
     	    print "route length = ", route_length
             print "route path   = ", route_path
 
-    	    mat=np.zeros((12, 18), dtype=np.uint64)
+    	    #mat=np.zeros((12, 18), dtype=np.uint64)
     	    x_dot,y_dot = pathPlanning.curve_fit(np.asarray(route_path))
             
-            for ij in range(len(x_dot)):
-            	Robot.go_to_goal(x_dot[ij],y_dot[ij],0,0,0)
-		time.sleep(route_length/len(x_dot))
+            #for ij in range(len(x_dot)):
+            #	Robot.go_to_goal(x_dot[ij],y_dot[ij],0,0,0)
+	    #   time.sleep(route_length/len(x_dot))
+	    Robot.go_to_goal()
 
     	    hsv_image = ball_object.rgb2hsv(image)
             mask_ball = ball_object.get_hsv_mask(hsv_image,ball_object.lower_ball,ball_object.upper_ball)

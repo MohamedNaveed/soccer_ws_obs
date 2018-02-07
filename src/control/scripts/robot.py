@@ -158,6 +158,9 @@ class robot:
                 vel_w_3 -= MIN_VEL_GTG
         if(vel_w_1 > 255 or vel_w_2 > 255 or vel_w_3 > 255):
             print "   Error                  "
-        message = str(int(vel_w_1))+":"+str(int(vel_w_2))+":"+str(int(vel_w_3))+":"+str(solenoid)+":"+str(dribbler)+":"
+	vel_w_1 = 755
+	vel_w_2 = 255
+	vel_w_3 = 255
+        message = str(int(vel_w_1))+":"+str(int(vel_w_2+500))+":"+str(int(vel_w_3+500))+":"+str(solenoid)+":"+str(dribbler)+":"
         print message
         return self.send(message)

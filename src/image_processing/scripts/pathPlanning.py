@@ -54,6 +54,7 @@ class Astar(object):
     def init_grid(self, grid):
         for i in range(rows):
             for j in range(columns):
+                #route_path.reverse()
                 # detecting the obstacles
                 if grid[i][j] == 1:
                     reachable = False
@@ -73,7 +74,7 @@ class Astar(object):
         return self.cells[x*columns+y]
 
     def cell_heuristic(self, cell):
-        # returns the heuristic for astar algo
+        # returns the heuristic for astar algo	
         return abs(cell.x-self.end.x)+abs(cell.y-self.end.y)
 
     def neighbour(self, cell):
@@ -130,7 +131,6 @@ class Astar(object):
                 # store path and path legth
                 route_path, route_length = self.display_path()
 		route_path.append([self.start.x, self.start.y])
-                route_path.reverse()
                 break
             # getting the adjoint cells
             neighbours = self.neighbour(cell)
@@ -144,7 +144,8 @@ class Astar(object):
                     else:
                         self.update_cell(path, cell)
                         heapq.heappush(self.open, (path.net_cost, path))
-        return route_path, route_length
+	route_path.reverse()        
+	return route_path, route_length
 
 
 def play(grid):
@@ -191,15 +192,15 @@ def curve_fit(points):
 	new_y_dot = func_y_dot(time_x_new)
         return new_x_dot,new_y_dot
 
-	#print "velocity:", new_x_dot
-	#x_dot = func_x.diff
-	#plt.plot(time_x, x, 'o', time_x_new, new_x, time_x_new, new_x_dot, 'x')
-	#plt.xlim([time_x[0]-1, time_x[-1] + 1 ])
-	#plt.ylim([0, 15 ])
-	#plt.show()
-	#plt.plot(x,y,'o', x_new, y_new)
-	#plt.xlim([x[0]-1, x[-1] + 1 ])
-	#plt.show()
+	print "velocity:", new_x_dot
+	x_dot = func_x.diff
+	plt.plot(time_x, x, 'o', time_x_new, new_x, time_x_new, new_x_dot, 'x')
+	plt.xlim([time_x[0]-1, time_x[-1] + 1 ])
+	plt.ylim([0, 15 ])
+	plt.show()
+	# plt.plot(x,y,'o', x_new, y_new)
+	# plt.xlim([x[0]-1, x[-1] + 1 ])
+	# plt.show()
 
 """if __name__ == "__main__":
     # code for checking output for single image

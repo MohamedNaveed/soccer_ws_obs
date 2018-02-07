@@ -125,9 +125,14 @@ class IP(object):
 class detectRobot(IP):
 
     def __init__(self):
+	
         self.pts_in_img = np.float32([LEFT_TOP,RIGHT_TOP,RIGHT_BOTTOM,LEFT_BOTTOM])
         self.pts_reqd = np.float32([[0,0],[FINAL_WIDTH,0],[FINAL_WIDTH,FINAL_HEIGHT],[0,FINAL_HEIGHT]])
-
+        self.cx_bot_old = 0
+	self.cy_bot_old = 0
+        self.cx_bot = 0
+        self.cy_bot = 0
+        self.vx_bot_pixel = 0;  self.vy_bot_pixel = 0
         super(detectRobot,self).__init__()
 
     # Input: image(RGB),threshold
@@ -149,6 +154,24 @@ class detectRobot(IP):
 
     def get_yaw_angle(self,cX,cY,yX,yY):
         return math.atan2(cY-yY,cX-yX)*180/math.pi
+
+    def update_bot_state(self,cx_bot,cy_bot):
+	
+        self.cx_bot_old = self.cx_bot
+        self.cy_bot_old = self.cy_bot
+        self.cx_bot = cx_bot
+        self.cy_bot = cy_bot
+
+        self.get_velocity_bot()
+    
+    def get_velocity_bot(self):
+        self.vx_bot_pixel = int((self.cx_bot-self.cx_bot_old)*self.fps)
+        self.vy_bot_pixel = int((self.cy_bot-self.cy_bot_old)*self.fps)
+        if self.vx_bot_pixel < 0:
+            self.dir = 0
+        else:
+            self.dir = 1
+        return int(self.vx_bot_pixel),int(self.vy_bot_pixel)
 
 class Ball(detectRobot):
 
