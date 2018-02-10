@@ -5,21 +5,28 @@ import XBee
 import socket
 import rospy
 import serial
+from image_processing.msg import bot_state
 from time import sleep
 
 #Required constants
 WHEEL_RADIUS = 5   #cm
 BOT_RADIUS = 13.5  #cm
 MIN_VEL = 30
-MIN_VEL_GTG = 110
+MIN_VEL_GTG = 85
 bot_1=0001
 #ser = serial.Serial('/dev/ttyUSB0',115200)
 
+
+def callback_bot(msg):
+    print "Fuck"    
+    if msg.num_circles == 3:
+        a.update_state((msg.pose.x,msg.pose.y,msg.pose.theta))
+
 class robot:
 
-    def __init__(self,init_state=[0, 0, 0],number=0,ip=0,port=0):
+    def __init__(self,init_state = [0,0,0],number=0,ip=0,port=0):
 	
-        self.state = init_state   #provide from IP
+        self.state = init_state   #providefrom IP
         self.bot_number = number   #give numbers to each robot T1_1 T2_1 etc..
         self.wheel_radius = WHEEL_RADIUS
         self.bot_radius = BOT_RADIUS
@@ -42,10 +49,18 @@ class robot:
         self.sock.close()
 	print "after"
         if(data != 'H'):
-           print "Error: Incorrect acknowledgement from robot ",self.bot_number
+           print "Error: Incorrect acknowledgement from robot ",self.bot_number	
            return 0
         else:
 	   print "ack "
+
+
+
+
+
+
+
+
            return 1
 	'''
 	  # Your serial port name here
@@ -113,64 +128,61 @@ class robot:
 
     def update_state(self,given_state):
         self.state = given_state;
-
-    def go_to_goal(self,x_dot = 0,y_dot = 2,w = 0,solenoid=0,dribbler=0):
+	#print "State     : ", self.state
+#Maxvelocity = 44cm/s
+#MaxValue = 8.5
+    def go_to_goal(self,x_dot = 0,y_dot = 0,w = -20,solenoid=0,dribbler=0):
         vel_w_1 = (((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
         vel_w_2 = (((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel
         vel_w_3 = (((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel  
-	print "Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
-        max_val = max(abs(vel_w_1),abs(vel_w_2),abs(vel_w_3))
-        # print max_val
-        if round(max_val,0) == abs(round(vel_w_1,0)) and round(max_val,0) == abs(round(vel_w_2,0)) and round(max_val,0) == abs(round(vel_w_3,0)):
-            vel_w_1 = (vel_w_1)*(255-MIN_VEL_GTG)/6.0
-            vel_w_2 = (vel_w_2)*(255-MIN_VEL_GTG)/6.0
-            vel_w_3 = (vel_w_3)*(255-MIN_VEL_GTG)/6.0
-            # print "wheel_velocities: ",vel_w_1,vel_w_2,vel_w_3
-            if vel_w_1 > 0:
-                vel_w_1 += MIN_VEL_GTG
-            else:
-                vel_w_1 -= MIN_VEL_GTG
-            if vel_w_2 > 0:
-                vel_w_2 += MIN_VEL_GTG
-            else:
-                vel_w_2 -= MIN_VEL_GTG
-            if vel_w_3 > 0 :
-                vel_w_3 += MIN_VEL_GTG
-            else:
-                vel_w_3 -= MIN_VEL_GTG
-        else:
-            # print "I'm here too"
-            vel_w_1 /= 41; vel_w_2 /= 41; vel_w_3 /= 41;
-
-            vel_w_1 *= (255-MIN_VEL_GTG)
-            if vel_w_1 > 0:
-                vel_w_1 += MIN_VEL_GTG
-            else:
-                vel_w_1 -= MIN_VEL_GTG
-            vel_w_2 *= (255-MIN_VEL_GTG)
-            if vel_w_2 > 0:
-                vel_w_2 += MIN_VEL_GTG
-            else:
-                vel_w_2 -= MIN_VEL_GTG
-            vel_w_3 *= (255-MIN_VEL_GTG)
-            if vel_w_3 > 0 :
-                vel_w_3 += MIN_VEL_GTG
-            else:
-                vel_w_3 -= MIN_VEL_GTG
-
-        if(vel_w_1 > 255 or vel_w_2 > 255 or vel_w_3 > 255):
-            print "   Error    "
-	    if (vel_w_1>255):
-	        vel_w_1 = 255
-	    if (vel_w_2>255):
-	        vel_w_2 = 255
-	    if (vel_w_3>255):
-	        vel_w_3 = 255
 	
-	vel_w_1 = 0
-	vel_w_2 = 0
-	vel_w_3 = 118
+	#print "Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
+	
+	if(vel_w_1>0.001):
+		vel_w_1 = (vel_w_1/8.5)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+	elif(vel_w_1<-0.001):
+		vel_w_1 = (vel_w_1/8.5)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+	if(vel_w_2>0.001):
+		vel_w_2 = (vel_w_2/8.5)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+	elif(vel_w_2<-0.001):
+	 	vel_w_2 = (vel_w_2/8.5)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+	if(vel_w_3>0.001):
+		vel_w_3 = (vel_w_3/8.5)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+	elif(vel_w_3<-0.001):
+		vel_w_3 = (vel_w_3/8.5)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+
+
+	max_val = max(abs(vel_w_1),abs(vel_w_2),abs(vel_w_3))
+        #print max_val
+	
+	if(max_val>255):
+		if(vel_w_1>0.001):
+			vel_w_1 = (vel_w_1/max_val)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+		elif(vel_w_1<-0.001):
+			vel_w_1 = (vel_w_1/max_val)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+		if(vel_w_2>0.001):
+			vel_w_2 = (vel_w_2/max_val)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+		elif(vel_w_2<-0.001):
+			vel_w_2 = (vel_w_2/max_val)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+		if(vel_w_3>0.001):
+			vel_w_3 = (vel_w_3/max_val)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+		elif(vel_w_3<-0.001):
+			vel_w_3 = (vel_w_3/max_val)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+		
+	#print "Marana Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
+
+	        
+	vel_w_1 = -130
+	vel_w_2 = 255
+	vel_w_3 = -130
 	
         message = str(int((vel_w_1 - (vel_w_1>255)*(vel_w_1%255))+500))+":"+str(int((vel_w_2 - (vel_w_2>255)*(vel_w_2%255))+500))+":"+str(int((vel_w_3 - (vel_w_3>255)*(vel_w_3%255))+500))+":"+str(solenoid)+":"+str(dribbler)+":"
-        print vel_w_1 , ":" , vel_w_2 , ":" ,vel_w_3 , ":" ,solenoid, ":" , dribbler
+        #print vel_w_1 , ":" , vel_w_2 , ":" ,vel_w_3 , ":" ,solenoid, ":" , dribbler
         return self.send(message)
+
+if __name__=="__main__":
+    print "Fuck"  
+    a = robot()
+    rospy.init_node('robot',anonymous=True)        
+    rospy.Subscriber('bot_states',bot_state,callback_bot)
+    rospy.spin()

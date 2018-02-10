@@ -60,7 +60,7 @@ if __name__=="__main__":
                 c = contours[i]
     	        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
                 area = ball_object.find_area(contours[i])
-                print i,area
+                #print i,area
 
                 if area > 3300 and area < 5000:
                     centroid = ball_object.get_center(contours[i])
@@ -111,7 +111,7 @@ if __name__=="__main__":
                         bot_msg.pose.y = centroid[1]
                         bot_msg.pose.theta = -1*yaw_angle
                         # bot_msg.pose.theta = 120
-                        rospy.loginfo(bot_msg)
+                        #rospy.loginfo(bot_msg)
                         state_publisher.publish(bot_msg)
 
  		#for i in range(12):
@@ -122,16 +122,16 @@ if __name__=="__main__":
                 mat[11][17]=3
 
 
-            print "Printing mat..."
-            for i in range(12):
-                s = ""
-                for j in range(18):
-                    s += str(mat[i][j]) + " "
-                print s
+            #print "Printing mat..."
+            #for i in range(12):
+             #   s = ""
+              #  for j in range(18):
+               #     s += str(mat[i][j]) + " "
+                #print s
 
     	    route_length, route_path=pathPlanning.play(mat)
-    	    print "route length = ", route_length
-            print "route path   = ", route_path
+    	    #print "route length = ", route_length
+            #print "route path   = ", route_path
 
     	    #mat=np.zeros((12, 18), dtype=np.uint64)
     	    x_dot,y_dot = pathPlanning.curve_fit(np.asarray(route_path))
@@ -156,7 +156,7 @@ if __name__=="__main__":
                     if centroid_ball == -1:
                         break
                     ball_object.update_state(centroid_ball[0],centroid_ball[1])
-                    print (ball_object.cx,ball_object.cy),ball_object.get_velocity()
+                    #print (ball_object.cx,ball_object.cy),ball_object.get_velocity()
                     if ball_object.abs_vel() > 10:
                         ball_object.draw_arrow(image)
 
@@ -174,7 +174,7 @@ if __name__=="__main__":
                 msg = ball_predict()
                     # print ball_object.get_prediction(image)
                 destination = ball_object.get_prediction(image)
-                print destination
+                #print destination
                 if destination == -1:
                     msg.predicted_x = -1
                     msg.predicted_y = -1

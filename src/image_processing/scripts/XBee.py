@@ -58,7 +58,7 @@ class XBee():
         if (sum(frame[2:3+LSB]) & 0xFF) != 0xFF:
             return False
 
-        print("Rx: " + self.format(bytearray(b'\x7E') + msg))
+        #print("Rx: " + self.format(bytearray(b'\x7E') + msg))
         self.RxMessages.append(frame)
         return True
 
@@ -98,7 +98,7 @@ class XBee():
             addr & 0xFF,            # Destination address low byte
             options
         )
-        print msg
+        #print msg
         
         frame = bytearray.fromhex(hexs)
         #  Append message content
@@ -110,7 +110,7 @@ class XBee():
         # Escape any bytes containing reserved characters
         frame = self.Escape(frame)
 
-        print("Tx: " + self.format(frame))
+        #print("Tx: " + self.format(frame))
         return self.serial.write(frame)
 
     def Unescape(self, msg):
