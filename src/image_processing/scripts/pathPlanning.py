@@ -74,7 +74,7 @@ class Astar(object):
         return self.cells[x*columns+y]
 
     def cell_heuristic(self, cell):
-        # returns the heuristic for astar algo	
+        # returns the heuristic for astar algo
         return abs(cell.x-self.end.x)+abs(cell.y-self.end.y)
 
     def neighbour(self, cell):
@@ -88,14 +88,14 @@ class Astar(object):
             cells.append(self.cell(cell.x, cell.y+1))
         if cell.y > 0:
             cells.append(self.cell(cell.x, cell.y-1))
-	if cell.x < rows-1 and cell.y < columns-1:
-	    cells.append(self.cell(cell.x+1, cell.y+1))
-	if cell.x < rows-1 and cell.y > 0:
-	    cells.append(self.cell(cell.x+1, cell.y-1))
-	if cell.x > 0 and cell.y < columns-1:
-	    cells.append(self.cell(cell.x-1, cell.y+1))
-	if cell.x > 0 and cell.y > 0:
-	    cells.append(self.cell(cell.x-1, cell.y-1))
+        if cell.x < rows-1 and cell.y < columns-1:
+	        cells.append(self.cell(cell.x+1, cell.y+1))
+        if cell.x < rows-1 and cell.y > 0:
+	        cells.append(self.cell(cell.x+1, cell.y-1))
+        if cell.x > 0 and cell.y < columns-1:
+            cells.append(self.cell(cell.x-1, cell.y+1))
+        if cell.x > 0 and cell.y > 0:
+	        cells.append(self.cell(cell.x-1, cell.y-1))
 
 
         return cells
@@ -130,7 +130,7 @@ class Astar(object):
             if cell is self.end:
                 # store path and path legth
                 route_path, route_length = self.display_path()
-		route_path.append([self.start.x, self.start.y])
+                route_path.append([self.start.x, self.start.y])
                 break
             # getting the adjoint cells
             neighbours = self.neighbour(cell)
@@ -144,8 +144,8 @@ class Astar(object):
                     else:
                         self.update_cell(path, cell)
                         heapq.heappush(self.open, (path.net_cost, path))
-	route_path.reverse()        
-	return route_path, route_length
+        route_path.reverse()
+        return route_path, route_length
 
 
 def play(grid):
@@ -162,8 +162,8 @@ def play(grid):
 def curve_fit(points):
 
 	# get x and y vectors
-	x = points[:,0]
-	y = points[:,1]
+    x = points[:,0]
+    y = points[:,1]
 
 	# calculate polynomial
 	#z = np.polyfit(x, y, 5)
@@ -173,53 +173,31 @@ def curve_fit(points):
 	# calculate new x's and y's
 	#x_new = np.linspace(x[0], x[-1], 50)
 	#y_new = f(x_new)
-	time_x=np.zeros(len(x))
-	for i in range(len(x)):
-		time_x[i]=i+1
-	order = 9
-	time_x_new = np.linspace(time_x[0], time_x[-1], 1000)
+    time_x=np.zeros(len(x))
+    for i in range(len(x)):
+        time_x[i]=i+1
+    order = 9
+    time_x_new = np.linspace(time_x[0], time_x[-1], 1000)
 
-	x_coeff = np.polyfit(time_x, x, order)
-	func_x = np.poly1d(x_coeff)
-	func_x_dot = func_x.deriv()
-	new_x = func_x(time_x_new)
-	new_x_dot = func_x_dot(time_x_new)
+    x_coeff = np.polyfit(time_x, x, order)
+    func_x = np.poly1d(x_coeff)
+    func_x_dot = func_x.deriv()
+    new_x = func_x(time_x_new)
+    new_x_dot = func_x_dot(time_x_new)
 
-	y_coeff = np.polyfit(time_x, y, order)
-	func_y = np.poly1d(y_coeff)
-	func_y_dot = func_y.deriv()
-	new_y = func_y(time_x_new)
-	new_y_dot = func_y_dot(time_x_new)
-        return new_x_dot,new_y_dot
+    y_coeff = np.polyfit(time_x, y, order)
+    func_y = np.poly1d(y_coeff)
+    func_y_dot = func_y.deriv()
+    new_y = func_y(time_x_new)
+    new_y_dot = func_y_dot(time_x_new)
+    return new_x_dot, new_y_dot
 
-	print "velocity:", new_x_dot
-	x_dot = func_x.diff
-	plt.plot(time_x, x, 'o', time_x_new, new_x, time_x_new, new_x_dot, 'x')
-	plt.xlim([time_x[0]-1, time_x[-1] + 1 ])
-	plt.ylim([0, 15 ])
-	plt.show()
+    print "velocity:", new_x_dot
+    x_dot = func_x.diff
+    plt.plot(time_x, x, 'o', time_x_new, new_x, time_x_new, new_x_dot, 'x')
+    plt.xlim([time_x[0]-1, time_x[-1] + 1 ])
+    plt.ylim([0, 15 ])
+    plt.show()
 	# plt.plot(x,y,'o', x_new, y_new)
 	# plt.xlim([x[0]-1, x[-1] + 1 ])
 	# plt.show()
-
-"""if __name__ == "__main__":
-    # code for checking output for single image
-    #img = cv2.imread('SampleImages/test_image1.png')
-    route_length, route_path = play()
-    print "OUTPUT FOR SINGLE IMAGE (IMAGE 1)..."
-    print "route length = ", route_length
-    print "route path   = ", route_path
-    # code for checking output for all images
-    route_length_list = []
-    route_path_list = []
-    for file_number in range(1, 6):
-        file_name = "SampleImages/test_image"+str(file_number)+".png"
-        pic = cv2.imread(file_name)
-        route_length, route_path = play(pic)
-        route_length_list.append(route_length)
-        route_path_list.append(route_path)
-    print "OUTPUT FOR ALL IMAGES..."
-    for i in range(5):
-        print "route length for image ", i+1, " = ", route_length_list[i]
-        print "route path for image ", i+1, " = ", route_path_list[i]
-"""
