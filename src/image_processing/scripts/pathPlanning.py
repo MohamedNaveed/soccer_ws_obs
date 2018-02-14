@@ -190,14 +190,15 @@ def curve_fit(points):
     func_y_dot = func_y.deriv()
     new_y = func_y(time_x_new)
     new_y_dot = func_y_dot(time_x_new)
-    return new_x_dot, new_y_dot
 
-    print "velocity:", new_x_dot
-    x_dot = func_x.diff
-    plt.plot(time_x, x, 'o', time_x_new, new_x, time_x_new, new_x_dot, 'x')
-    plt.xlim([time_x[0]-1, time_x[-1] + 1 ])
-    plt.ylim([0, 15 ])
-    plt.show()
+    return time_x_new, new_x, new_y, new_x_dot, new_y_dot
+
+    # print "velocity:", new_x_dot
+    # x_dot = func_x.diff
+    #plt.plot(time_x_new, new_x, 'o')#, time_x_new, new_x, time_x_new, new_x_dot, 'x')
+    # plt.xlim([time_x[0]-1, time_x[-1] + 1 ])
+    # plt.ylim([0, 15 ])
+    #plt.show()
 	# plt.plot(x,y,'o', x_new, y_new)
 	# plt.xlim([x[0]-1, x[-1] + 1 ])
 	# plt.show()

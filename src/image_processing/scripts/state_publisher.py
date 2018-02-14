@@ -28,12 +28,14 @@ if __name__=="__main__":
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
         ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=1)
         ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=1)
+        #route_path_publisher = rospy.Publisher('path', ,queue_size=1)
         rospy.init_node('state_publisher',anonymous=True)
         rate = rospy.Rate(ball_object.fps)
         centroid = (0,0)
         centroid_small = (0,0)
 
         mat = np.zeros((12, 18), dtype=np.uint64)
+        previous_mat = np.zeros((12, 18), dtype=np.uint64)
         MAT = np.zeros((12, 18), dtype=np.uint64)
 
 
@@ -117,7 +119,7 @@ if __name__=="__main__":
 		#	mat.append(row)
 
                     mat = mat | MAT
-                mat[11][17]=3
+                mat[11][17]=3 #goal position
 
 
             #print "Printing mat..."
@@ -129,15 +131,11 @@ if __name__=="__main__":
 
     	    route_length, route_path=pathPlanning.play(mat)
     	    #print "route length = ", route_length
-            #print "route path   = ", route_path
+            print "route path   = ", route_path
 
     	    #mat=np.zeros((12, 18), dtype=np.uint64)
-    	    x_dot,y_dot = pathPlanning.curve_fit(np.asarray(route_path))
-
-            #for ij in range(len(x_dot)):
-            #	Robot.go_to_goal(x_dot[ij],y_dot[ij],0,0,0)
-	    #   time.sleep(route_length/len(x_dot))
-            #Robot.go_to_goal()
+    	    #traj_time, traj_x, traj_y, traj_x_dot, traj_y_dot = pathPlanning.curve_fit(np.asarray(route_path))
+            #pathPlanning.curve_fit(np.asarray(route_path))
 
     	    hsv_image = ball_object.rgb2hsv(image)
             mask_ball = ball_object.get_hsv_mask(hsv_image,ball_object.lower_ball,ball_object.upper_ball)
