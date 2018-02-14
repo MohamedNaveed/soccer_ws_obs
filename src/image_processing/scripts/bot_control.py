@@ -3,9 +3,9 @@ import robot
 import time
 import rospy
 import math
-from image_processing.msg import ball
+#from image_processing.msg import ball
 from image_processing.msg import bot_state
-from image_processing.msg import ball_predict
+#from image_processing.msg import ball_predict
 
 def callback_bot(msg):
     if msg.num_circles == 3:

@@ -159,11 +159,11 @@ def play(grid):
 
     return route_length, route_path
 
-def curve_fit(points):
+def curve_fit(x,y):
 
 	# get x and y vectors
-    x = points[:,0]
-    y = points[:,1]
+    #x = points[:,0]
+    #y = points[:,1]
 
 	# calculate polynomial
 	#z = np.polyfit(x, y, 5)
@@ -175,7 +175,10 @@ def curve_fit(points):
 	#y_new = f(x_new)
     time_x=np.zeros(len(x))
     for i in range(len(x)):
-        time_x[i]=i+1
+        if i != 0:
+            time_x[i] = time_x[i] + 0.5
+        else:
+            time_x[i] = 0.5
     order = 9
     time_x_new = np.linspace(time_x[0], time_x[-1], 1000)
 

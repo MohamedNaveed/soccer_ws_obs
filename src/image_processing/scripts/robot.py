@@ -18,10 +18,10 @@ bot_1=0001
 #x_dot robot moves up
 #y_dot robot moves left
 
-def callback_bot(msg):
-    print "Fuck"
-    if msg.num_circles == 3:
-        a.update_state((msg.pose.x,msg.pose.y,msg.pose.theta))
+# def callback_bot(msg):
+#     print "Fuck"
+#     if msg.num_circles == 3:
+#         a.update_state((msg.pose.x,msg.pose.y,msg.pose.theta))
 
 class robot:
 
@@ -172,7 +172,7 @@ class robot:
         #vel_w_3 = -130
 
         message = str(int((vel_w_1 - (vel_w_1>255)*(vel_w_1%255))+500))+":"+str(int((vel_w_2 - (vel_w_2>255)*(vel_w_2%255))+500))+":"+str(int((vel_w_3 - (vel_w_3>255)*(vel_w_3%255))+500))+":"+str(solenoid)+":"+str(dribbler)+":"
-        print vel_w_1 , ":" , vel_w_2 , ":" ,vel_w_3 , ":" ,solenoid, ":" , dribbler
+        print vel_w_1 , ":" , vel_w_2 , ":" ,vel_w_3 # , ":" ,solenoid, ":" , dribbler
         return self.send(message)
 
 if __name__=="__main__":
