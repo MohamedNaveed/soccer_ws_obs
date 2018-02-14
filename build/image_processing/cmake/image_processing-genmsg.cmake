@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.cmake.em
 
-message(STATUS "image_processing: 3 messages, 0 services")
+message(STATUS "image_processing: 4 messages, 0 services")
 
 set(MSG_I_FLAGS "-Iimage_processing:/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg;-Istd_msgs:/opt/ros/kinetic/share/std_msgs/cmake/../msg;-Igeometry_msgs:/opt/ros/kinetic/share/geometry_msgs/cmake/../msg")
 
@@ -27,6 +27,11 @@ add_custom_target(_image_processing_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "image_processing" "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg" ""
 )
 
+get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg" NAME_WE)
+add_custom_target(_image_processing_generate_messages_check_deps_${_filename}
+  COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "image_processing" "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg" ""
+)
+
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg" NAME_WE)
 add_custom_target(_image_processing_generate_messages_check_deps_${_filename}
   COMMAND ${CATKIN_ENV} ${PYTHON_EXECUTABLE} ${GENMSG_CHECK_DEPS_SCRIPT} "image_processing" "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg" ""
@@ -46,6 +51,12 @@ _generate_msg_cpp(image_processing
 )
 _generate_msg_cpp(image_processing
   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/image_processing
+)
+_generate_msg_cpp(image_processing
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gencpp_INSTALL_DIR}/image_processing
@@ -75,6 +86,8 @@ get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_w
 add_dependencies(image_processing_generate_messages_cpp _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_cpp _image_processing_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_cpp _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_cpp _image_processing_generate_messages_check_deps_${_filename})
 
@@ -95,6 +108,12 @@ _generate_msg_eus(image_processing
 )
 _generate_msg_eus(image_processing
   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/image_processing
+)
+_generate_msg_eus(image_processing
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${geneus_INSTALL_DIR}/image_processing
@@ -124,6 +143,8 @@ get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_w
 add_dependencies(image_processing_generate_messages_eus _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_eus _image_processing_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_eus _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_eus _image_processing_generate_messages_check_deps_${_filename})
 
@@ -144,6 +165,12 @@ _generate_msg_lisp(image_processing
 )
 _generate_msg_lisp(image_processing
   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/image_processing
+)
+_generate_msg_lisp(image_processing
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genlisp_INSTALL_DIR}/image_processing
@@ -173,6 +200,8 @@ get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_w
 add_dependencies(image_processing_generate_messages_lisp _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_lisp _image_processing_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_lisp _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_lisp _image_processing_generate_messages_check_deps_${_filename})
 
@@ -193,6 +222,12 @@ _generate_msg_nodejs(image_processing
 )
 _generate_msg_nodejs(image_processing
   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/image_processing
+)
+_generate_msg_nodejs(image_processing
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${gennodejs_INSTALL_DIR}/image_processing
@@ -222,6 +257,8 @@ get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_w
 add_dependencies(image_processing_generate_messages_nodejs _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_nodejs _image_processing_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_nodejs _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_nodejs _image_processing_generate_messages_check_deps_${_filename})
 
@@ -242,6 +279,12 @@ _generate_msg_py(image_processing
 )
 _generate_msg_py(image_processing
   "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg"
+  "${MSG_I_FLAGS}"
+  ""
+  ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/image_processing
+)
+_generate_msg_py(image_processing
+  "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg"
   "${MSG_I_FLAGS}"
   ""
   ${CATKIN_DEVEL_PREFIX}/${genpy_INSTALL_DIR}/image_processing
@@ -270,6 +313,8 @@ add_dependencies(image_processing_generate_messages image_processing_generate_me
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/bot_state.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_py _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg" NAME_WE)
+add_dependencies(image_processing_generate_messages_py _image_processing_generate_messages_check_deps_${_filename})
+get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_py _image_processing_generate_messages_check_deps_${_filename})
 get_filename_component(_filename "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg" NAME_WE)
 add_dependencies(image_processing_generate_messages_py _image_processing_generate_messages_check_deps_${_filename})

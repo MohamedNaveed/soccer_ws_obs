@@ -7,5 +7,7 @@
    "BALL_PREDICT"
    "<BOT_STATE>"
    "BOT_STATE"
+   "<ROUTE>"
+   "ROUTE"
   ))
 

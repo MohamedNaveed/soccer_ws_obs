@@ -1,6 +1,6 @@
 # generated from genmsg/cmake/pkg-genmsg.context.in
 
-messages_str = "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/bot_state.msg;/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg;/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg"
+messages_str = "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/bot_state.msg;/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg;/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg;/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg"
 services_str = ""
 pkg_name = "image_processing"
 dependencies_str = "std_msgs;geometry_msgs"

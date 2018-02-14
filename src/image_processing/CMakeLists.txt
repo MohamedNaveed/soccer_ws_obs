@@ -51,6 +51,7 @@ add_message_files(
   bot_state.msg
   ball.msg
   ball_predict.msg
+  route.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -71,7 +72,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
-	geometry_msgs
+  geometry_msgs
 )
 
 ################################################

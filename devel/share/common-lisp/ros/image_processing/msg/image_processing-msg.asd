@@ -11,4 +11,6 @@
     (:file "_package_ball_predict" :depends-on ("_package"))
     (:file "bot_state" :depends-on ("_package_bot_state"))
     (:file "_package_bot_state" :depends-on ("_package"))
+    (:file "route" :depends-on ("_package_route"))
+    (:file "_package_route" :depends-on ("_package"))
   ))

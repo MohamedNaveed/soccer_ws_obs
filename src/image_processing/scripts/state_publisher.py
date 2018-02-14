@@ -6,11 +6,12 @@ import rospy
 import pathPlanning
 import robot
 import time
-
+from rospy.numpy_msg import numpy_msg
+from rospy_tutorials.msg import Floats
 from image_processing.msg import ball
 from image_processing.msg import ball_predict
 from image_processing.msg import bot_state
-
+from image_processing.msg import route
 SOFT_LIMIT_POSITIVE = 700
 SOFT_LIMIT_NEGATIVE = 400
 
@@ -21,14 +22,14 @@ if __name__=="__main__":
         ball_object = ip_module.Ball()
         Robot = robot.robot()
         flag = 0    #why?
-        flag2 = 1  #why?
+        flag2 = 1  #for start position of robot to be defined only once
         bot3_x = 1 #why?
         bot3_y = 1
 
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
         ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=1)
         ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=1)
-        #route_path_publisher = rospy.Publisher('path', ,queue_size=1)
+        route_path_publisher = rospy.Publisher('path', route,queue_size=1)
         rospy.init_node('state_publisher',anonymous=True)
         rate = rospy.Rate(ball_object.fps)
         centroid = (0,0)
@@ -128,10 +129,18 @@ if __name__=="__main__":
               #  for j in range(18):
                #     s += str(mat[i][j]) + " "
                 #print s
-
-    	    route_length, route_path=pathPlanning.play(mat)
-    	    #print "route length = ", route_length
-            print "route path   = ", route_path
+            if not np.array_equal(previous_mat, mat):
+                route_length, route_path=pathPlanning.play(mat)
+                previous_mat=mat
+                #print "route length = ", route_length
+                path = np.asarray(route_path)
+                print "route path   = ", route_path
+                path_x = np.ndarray.tolist(path[:,0])
+                path_y = np.ndarray.tolist(path[:,1])
+                route_msg = route()
+                route_msg.x = path_x
+                route_msg.y = path_y
+                route_path_publisher.publish(route_msg)
 
     	    #mat=np.zeros((12, 18), dtype=np.uint64)
     	    #traj_time, traj_x, traj_y, traj_x_dot, traj_y_dot = pathPlanning.curve_fit(np.asarray(route_path))

@@ -37,6 +37,7 @@ if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
     "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/bot_state.msg"
     "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball.msg"
     "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/ball_predict.msg"
+    "/home/naveed/Documents/RMI/Soccerbots/soccer_ws_obs/src/image_processing/msg/route.msg"
     )
 endif()
 
