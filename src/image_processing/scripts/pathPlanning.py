@@ -176,9 +176,9 @@ def curve_fit(x,y):
     time_x=np.zeros(len(x))
     for i in range(len(x)):
         if i != 0:
-            time_x[i] = time_x[i] + 0.5
+            time_x[i] = time_x[i] + 0.75
         else:
-            time_x[i] = 0.5
+            time_x[i] = 0.75
     order = 9
     time_x_new = np.linspace(time_x[0], time_x[-1], 1000)
 

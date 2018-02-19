@@ -18,14 +18,9 @@ bot_1=0001
 #x_dot robot moves up
 #y_dot robot moves left
 
-# def callback_bot(msg):
-#     print "Fuck"
-#     if msg.num_circles == 3:
-#         a.update_state((msg.pose.x,msg.pose.y,msg.pose.theta))
-
 class robot:
 
-    def __init__(self,init_state=[0, 0, 0], number=0,ip=0,port=0):
+    def __init__(self,init_state=[0,0,0], number=0,ip=0,port=0):
 
         self.state = init_state   #providefrom IP
         self.bot_number = number   #give numbers to each robot T1_1 T2_1 etc..
@@ -121,17 +116,18 @@ class robot:
 
     def update_state(self,given_state):
         self.state = given_state;
-        #print "State updated"
-	#print "State     : ", self.state
+        print "State updated"
+        print "State : " , self.state
 #Maxvelocity = 44cm/s
 #MaxValue = 8.5
     def kinematic_model(self,x_dot=0, y_dot=0, w=0,solenoid=0,dribbler=0):
         print "kinematic model called:", x_dot, y_dot, w
-        vel_w_1 = (((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
-        vel_w_2 = (((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel
-        vel_w_3 = (((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel
+        print "pose angle:", self.state[2]
+        vel_w_1 = (((-1*math.sin((30+self.state[2])*math.pi/180)*y_dot) + math.cos((30+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
+        vel_w_2 = (((-1*math.sin((-90+self.state[2])*math.pi/180)*y_dot) + math.cos((-90+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel
+        vel_w_3 = (((-1*math.sin((150+self.state[2])*math.pi/180)*y_dot) + math.cos((150+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel
 
-	#print "Velocity_wheels:",vel_w_1,vel_w_2,vel_w_3
+	print "Velocity_wheels b4 scaling  :",vel_w_1,vel_w_2,vel_w_3
 
         if(vel_w_1>0.001):
             vel_w_1 = (vel_w_1/8.5)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
@@ -174,10 +170,3 @@ class robot:
         message = str(int((vel_w_1 - (vel_w_1>255)*(vel_w_1%255))+500))+":"+str(int((vel_w_2 - (vel_w_2>255)*(vel_w_2%255))+500))+":"+str(int((vel_w_3 - (vel_w_3>255)*(vel_w_3%255))+500))+":"+str(solenoid)+":"+str(dribbler)+":"
         print vel_w_1 , ":" , vel_w_2 , ":" ,vel_w_3 # , ":" ,solenoid, ":" , dribbler
         return self.send(message)
-
-if __name__=="__main__":
-    print "Fuck"
-    #a = robot()
-    #rospy.init_node('robot',anonymous=True)
-    #rospy.Subscriber('bot_states',bot_state,callback_bot)
-    #rospy.spin()

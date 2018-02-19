@@ -65,8 +65,8 @@ if __name__=="__main__":
             if theta_dot >= 1.57:
                 theta_dot = 1.57
 
-
-            bot3.kinematic_model((y_dot/8.0), (x_dot/8.0), -(theta_dot/2.0)) #x_dot, y_dot, w
+            y_dot=0; x_dot=-200; theta_dot
+            bot3.kinematic_model((x_dot/8.0), (y_dot/8.0), -(theta_dot/2.0)) #x_dot, y_dot, w
             #rospy.spin()
 
     except rospy.ROSInterruptException:

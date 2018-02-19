@@ -53,7 +53,7 @@ if __name__=="__main__":
             end_y = Y/12
             #im2 = ball_object.draw_grid(im2)
             imageGray = ball_object.rgb2gray(image)
-            ret,thresh = ball_object.threshold_image(imageGray,250,255)
+            ret,thresh = ball_object.threshold_image(imageGray,245,255)
             # if not ball_object.display_image(thresh,"thresh"):
             #     flag = 1
             #     break
@@ -89,14 +89,15 @@ if __name__=="__main__":
 
                                 if area_small > 150 and area_small < 600:
                                     centroid_small = ball_object.get_center(cropped_contours[j])
-    			#print "count = ", count
+
+                        print "count = ", count
                         if count == 3:
                             if flag2 == 1:
                                 bot3_x, bot3_y = centroid[0]/end_x, centroid[1]/end_y
                                 print "BOT 3" , bot3_x , bot3_y
                                 mat[int(bot3_y)][int(bot3_x)]=2
-                                flag2 = 0
-                                #print "b4 update bot"
+
+                                print "b4 update bot"
                             ball_object.update_bot_state(centroid[0],centroid[1])
                             #print "bot velocity from frame = ", ball_object.get_velocity_bot()
 
@@ -105,7 +106,7 @@ if __name__=="__main__":
                             im2,MAT = ball_object.draw_grid(im2,int(x_grid_num),int(y_grid_num))
 
                         yaw_angle = ball_object.get_yaw_angle(40,40,centroid_small[0],centroid_small[1])
-                        # print "State: ", centroid[0],centroid[1],yaw_angle
+                        #print "State: ", centroid[0],centroid[1],yaw_angle
                         # print "Count: ",count
                         bot_msg = bot_state()
                         bot_msg.num_circles = count
@@ -120,19 +121,22 @@ if __name__=="__main__":
 		#	mat.append(row)
 
                     mat = mat | MAT
-                mat[11][17]=3 #goal position
+                mat[1][17]=3 #goal position
 
 
-            #print "Printing mat..."
-            #for i in range(12):
-             #   s = ""
-              #  for j in range(18):
-               #     s += str(mat[i][j]) + " "
-                #print s
-            if not np.array_equal(previous_mat, mat):
-                route_length, route_path=pathPlanning.play(mat)
-                previous_mat=mat
-                #print "route length = ", route_length
+            print "Printing mat..."
+            for i in range(12):
+                s = ""
+                for j in range(18):
+                    s += str(mat[i][j]) + " "
+
+                print s
+            #if not np.array_equal(previous_mat, mat):
+            if flag2 == 1:
+                flag2 = 0
+                route_length, route_path = pathPlanning.play(mat)
+                #    previous_mat=mat
+                    #print "route length = ", route_length
                 path = np.asarray(route_path)
                 print "route path   = ", route_path
                 path_x = np.ndarray.tolist(path[:,0])
@@ -142,10 +146,11 @@ if __name__=="__main__":
                 route_msg.y = path_y
                 route_path_publisher.publish(route_msg)
 
-    	    #mat=np.zeros((12, 18), dtype=np.uint64)
+    	    mat=np.zeros((12, 18), dtype=np.uint64)
+            flag2 = 1
     	    #traj_time, traj_x, traj_y, traj_x_dot, traj_y_dot = pathPlanning.curve_fit(np.asarray(route_path))
             #pathPlanning.curve_fit(np.asarray(route_path))
-
+            #Robot.kinematic_model()
     	    hsv_image = ball_object.rgb2hsv(image)
             mask_ball = ball_object.get_hsv_mask(hsv_image,ball_object.lower_ball,ball_object.upper_ball)
             contours_ball,hierarchy = ball_object.find_contours(mask_ball)
