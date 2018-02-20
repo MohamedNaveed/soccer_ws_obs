@@ -57,37 +57,44 @@ if __name__=="__main__":
             # if not ball_object.display_image(thresh,"thresh"):
             #     flag = 1
             #     break
+            ball_object.display_image(thresh,"thresh")
             contours,hierarchy = ball_object.find_contours(thresh)
 
             for i in range(len(contours)):
                 c = contours[i]
     	        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
                 area = ball_object.find_area(contours[i])
-                #print i,area
+                print i,area
 
-                if area > 3300 and area < 5000:
+                if area > 3300 and area < 5200:
                     centroid = ball_object.get_center(contours[i])
 
                     x_grid_num, y_grid_num = centroid[0]/end_x, centroid[1]/end_y
 
                     if centroid != -1:
-                        _,thresh = ball_object.threshold_image(imageGray,220,255)
-                        cropped_image = ball_object.crop_image(thresh, centroid, 40)
 
+                        _,thresh = ball_object.threshold_image(imageGray,245,255) #value 245 was 220
+                        cropped_image = ball_object.crop_image(thresh, centroid, 40)
+                        # ball_object.display_image(cropped_image,"cropped_image")
+                        # while(1):
+                        #     if cv2.waitKey(1) == ord('q'):
+                        #         cv2.destroyAllWindows()
+                        #     continue
                         if isinstance(cropped_image,int):
                             print "The bot is out of bounds."
                             continue
 
                         cropped_contours,cropped_hierarchy = ball_object.find_contours(cropped_image)
-
+                        print "e"
                         count = 0
                         for j in range(len(cropped_contours)):
-                            area_small = ball_object.find_area(cropped_contours[j])
 
+                            area_small = ball_object.find_area(cropped_contours[j])
+                            print "area_small:", area_small
                             if cropped_hierarchy[0][j][2] == -1 and cropped_hierarchy[0][j][3] != -1:
                                 count += 1
 
-                                if area_small > 150 and area_small < 600:
+                                if area_small > 200 and area_small < 600:
                                     centroid_small = ball_object.get_center(cropped_contours[j])
 
                         print "count = ", count
@@ -96,8 +103,7 @@ if __name__=="__main__":
                                 bot3_x, bot3_y = centroid[0]/end_x, centroid[1]/end_y
                                 print "BOT 3" , bot3_x , bot3_y
                                 mat[int(bot3_y)][int(bot3_x)]=2
-
-                                print "b4 update bot"
+                                print "start assigned"
                             ball_object.update_bot_state(centroid[0],centroid[1])
                             #print "bot velocity from frame = ", ball_object.get_velocity_bot()
 
@@ -121,7 +127,7 @@ if __name__=="__main__":
 		#	mat.append(row)
 
                     mat = mat | MAT
-                mat[1][17]=3 #goal position
+                mat[1][9]=3 #goal position
 
 
             print "Printing mat..."

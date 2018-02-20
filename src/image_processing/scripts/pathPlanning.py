@@ -174,11 +174,12 @@ def curve_fit(x,y):
 	#x_new = np.linspace(x[0], x[-1], 50)
 	#y_new = f(x_new)
     time_x=np.zeros(len(x))
+
     for i in range(len(x)):
         if i != 0:
-            time_x[i] = time_x[i] + 0.75
+            time_x[i] = time_x[i-1] + 0.5
         else:
-            time_x[i] = 0.75
+            time_x[i] = 0.5
     order = 9
     time_x_new = np.linspace(time_x[0], time_x[-1], 1000)
 
@@ -193,6 +194,9 @@ def curve_fit(x,y):
     func_y_dot = func_y.deriv()
     new_y = func_y(time_x_new)
     new_y_dot = func_y_dot(time_x_new)
+
+    #plt.plot(time_x_new, new_y, 'o', time_x_new, new_y_dot, 'x')
+    #plt.show()
 
     return time_x_new, new_x, new_y, new_x_dot, new_y_dot
 

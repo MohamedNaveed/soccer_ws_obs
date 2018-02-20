@@ -116,8 +116,8 @@ class robot:
 
     def update_state(self,given_state):
         self.state = given_state;
-        print "State updated"
-        print "State : " , self.state
+        #print "State updated"
+        #print "State : " , self.state
 #Maxvelocity = 44cm/s
 #MaxValue = 8.5
     def kinematic_model(self,x_dot=0, y_dot=0, w=0,solenoid=0,dribbler=0):

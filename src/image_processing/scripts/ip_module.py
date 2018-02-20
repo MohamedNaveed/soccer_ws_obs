@@ -11,16 +11,16 @@ FULL_HEIGHT = 1080
 FINAL_WIDTH  = 1100
 FINAL_HEIGHT = 620
 
-LEFT_TOP = [195,5]
+LEFT_TOP = [175,26]
 RIGHT_TOP = [1775,12]
-RIGHT_BOTTOM = [1791,925]
-LEFT_BOTTOM = [220,991]
+RIGHT_BOTTOM = [1800,940]
+LEFT_BOTTOM = [220,1030]
 
 MAT = np.array((12, 18), dtype=np.uint64)
 class IP(object):
 
     def __init__(self):
-        self.cap = cv2.VideoCapture(1)
+        self.cap = cv2.VideoCapture(0)
         self.cap.set(3,FULL_WIDTH) #3 - WIDTH
         self.cap.set(4,FULL_HEIGHT)  #4 - HEIGHT
 
@@ -35,7 +35,7 @@ class IP(object):
 
     def perspective_transform(self,image,pts1,pts2):
         return cv2.warpPerspective(image,cv2.getPerspectiveTransform(pts1,pts2),(FINAL_WIDTH,FINAL_HEIGHT))
-	
+
     def rgb2gray(self,image):
         return cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
 
@@ -97,10 +97,10 @@ class IP(object):
 	start_y = 0
 	end_x = X/18
 	end_y = Y/12
-	
+
 	for i in range(18):
 		for j in range(12):
-			if i not in range(x_grid_num-1, x_grid_num+2) or j not in range(y_grid_num-1, y_grid_num+2) :  
+			if i not in range(x_grid_num-1, x_grid_num+2) or j not in range(y_grid_num-1, y_grid_num+2) :
 	   			im2 = cv2.rectangle(im2,(start_x+(X/18)*i,start_y+(Y/12)*j),(end_x+(X/18)*i,end_y+(Y/12)*j),(0,0,255))
 				mat[j][i] = 0
 			else :
@@ -118,14 +118,14 @@ class IP(object):
 	MAT = np.copy(mat)
 	#print "MAT.shape", MAT.shape
 	return im2,MAT
-    '''	
+    '''
     def point_polygon_test(self,contour,pt,measureDist):
 	return cv2.pointPolygonTest(contour, pt, measureDist)
     '''
 class detectRobot(IP):
 
     def __init__(self):
-	
+
         self.pts_in_img = np.float32([LEFT_TOP,RIGHT_TOP,RIGHT_BOTTOM,LEFT_BOTTOM])
         self.pts_reqd = np.float32([[0,0],[FINAL_WIDTH,0],[FINAL_WIDTH,FINAL_HEIGHT],[0,FINAL_HEIGHT]])
         self.cx_bot_old = 0
@@ -156,14 +156,14 @@ class detectRobot(IP):
         return math.atan2(cY-yY,cX-yX)*180/math.pi
 
     def update_bot_state(self,cx_bot,cy_bot):
-	
+
         self.cx_bot_old = self.cx_bot
         self.cy_bot_old = self.cy_bot
         self.cx_bot = cx_bot
         self.cy_bot = cy_bot
 
         self.get_velocity_bot()
-    
+
     def get_velocity_bot(self):
         self.vx_bot_pixel = int((self.cx_bot-self.cx_bot_old)*self.fps)
         self.vy_bot_pixel = int((self.cy_bot-self.cy_bot_old)*self.fps)
