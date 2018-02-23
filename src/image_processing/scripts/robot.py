@@ -121,26 +121,26 @@ class robot:
 #Maxvelocity = 44cm/s
 #MaxValue = 8.5
     def kinematic_model(self,x_dot=0, y_dot=0, w=0,solenoid=0,dribbler=0):
-        print "kinematic model called:", x_dot, y_dot, w
-        print "pose angle:", self.state[2]
-        vel_w_1 = (((-1*math.sin((30+self.state[2])*math.pi/180)*y_dot) + math.cos((30+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
-        vel_w_2 = (((-1*math.sin((-90+self.state[2])*math.pi/180)*y_dot) + math.cos((-90+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel
-        vel_w_3 = (((-1*math.sin((150+self.state[2])*math.pi/180)*y_dot) + math.cos((150+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel
+        #print "kinematic model called:", x_dot, y_dot, w
+        #print "pose angle:", self.state[2]
+        vel_w_1 = (((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
+        vel_w_2 = (((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel
+        vel_w_3 = (((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel
 
-	print "Velocity_wheels b4 scaling  :",vel_w_1,vel_w_2,vel_w_3
+        print "Velocity_wheels b4 scaling  :",vel_w_1,vel_w_2,vel_w_3
 
         if(vel_w_1>0.001):
-            vel_w_1 = (vel_w_1/8.5)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+            vel_w_1 = (vel_w_1/125)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG  # changed factor from 8.5 to 125 (due to increase in max(x_dot),max(y_dot) after including Kp)
         elif(vel_w_1<-0.001):
-            vel_w_1 = (vel_w_1/8.5)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+            vel_w_1 = (vel_w_1/125)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
         if(vel_w_2>0.001):
-            vel_w_2 = (vel_w_2/8.5)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+            vel_w_2 = (vel_w_2/125)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
         elif(vel_w_2<-0.001):
-            vel_w_2 = (vel_w_2/8.5)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+            vel_w_2 = (vel_w_2/125)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
         if(vel_w_3>0.001):
-            vel_w_3 = (vel_w_3/8.5)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+            vel_w_3 = (vel_w_3/125)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
         elif(vel_w_3<-0.001):
-            vel_w_3 = (vel_w_3/8.5)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+            vel_w_3 = (vel_w_3/125)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
 
 
         max_val = max(abs(vel_w_1),abs(vel_w_2),abs(vel_w_3))

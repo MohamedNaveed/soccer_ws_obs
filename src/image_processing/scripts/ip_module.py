@@ -20,7 +20,7 @@ MAT = np.array((12, 18), dtype=np.uint64)
 class IP(object):
 
     def __init__(self):
-        self.cap = cv2.VideoCapture(0)
+        self.cap = cv2.VideoCapture(1)
         self.cap.set(3,FULL_WIDTH) #3 - WIDTH
         self.cap.set(4,FULL_HEIGHT)  #4 - HEIGHT
 

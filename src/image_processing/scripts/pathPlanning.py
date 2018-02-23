@@ -177,11 +177,11 @@ def curve_fit(x,y):
 
     for i in range(len(x)):
         if i != 0:
-            time_x[i] = time_x[i-1] + 0.5
+            time_x[i] = time_x[i-1] + (0.5/4) # found this suitable after trial and error
         else:
-            time_x[i] = 0.5
-    order = 9
-    time_x_new = np.linspace(time_x[0], time_x[-1], 1000)
+            time_x[i] = (0.5/4)
+    order = 4
+    time_x_new = np.linspace(time_x[0], time_x[-1], 6*len(x)) 
 
     x_coeff = np.polyfit(time_x, x, order)
     func_x = np.poly1d(x_coeff)
@@ -194,9 +194,9 @@ def curve_fit(x,y):
     func_y_dot = func_y.deriv()
     new_y = func_y(time_x_new)
     new_y_dot = func_y_dot(time_x_new)
-
-    #plt.plot(time_x_new, new_y, 'o', time_x_new, new_y_dot, 'x')
-    #plt.show()
+    plt.plot(time_x_new, new_y, 'o', time_x_new, new_x, 'x')
+    plt.plot(time_x_new, new_y_dot, 'o', time_x_new, new_x_dot, 'x')
+    plt.show()
 
     return time_x_new, new_x, new_y, new_x_dot, new_y_dot
 

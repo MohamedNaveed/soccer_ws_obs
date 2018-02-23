@@ -22,10 +22,10 @@ if __name__=="__main__":
         ball_object = ip_module.Ball()
         Robot = robot.robot()
         flag = 0    #why?
-        flag2 = 1  #for start position of robot to be defined only once
         bot3_x = 1 #why?
         bot3_y = 1
-
+        goal_x = 9
+        goal_y = 15
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
         ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=1)
         ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=1)
@@ -85,7 +85,6 @@ if __name__=="__main__":
                             continue
 
                         cropped_contours,cropped_hierarchy = ball_object.find_contours(cropped_image)
-                        print "e"
                         count = 0
                         for j in range(len(cropped_contours)):
 
@@ -99,11 +98,10 @@ if __name__=="__main__":
 
                         print "count = ", count
                         if count == 3:
-                            if flag2 == 1:
-                                bot3_x, bot3_y = centroid[0]/end_x, centroid[1]/end_y
-                                print "BOT 3" , bot3_x , bot3_y
-                                mat[int(bot3_y)][int(bot3_x)]=2
-                                print "start assigned"
+                            bot3_x, bot3_y = centroid[0]/end_x, centroid[1]/end_y
+                            print "BOT 3" , bot3_x , bot3_y
+                            mat[int(bot3_y)][int(bot3_x)]=2
+                            #print "start assigned"
                             ball_object.update_bot_state(centroid[0],centroid[1])
                             #print "bot velocity from frame = ", ball_object.get_velocity_bot()
 
@@ -127,7 +125,8 @@ if __name__=="__main__":
 		#	mat.append(row)
 
                     mat = mat | MAT
-                mat[1][9]=3 #goal position
+                if mat[goal_x][goal_y] != 2:
+                    mat[goal_x][goal_y]=3 #goal position
 
 
             print "Printing mat..."
@@ -138,22 +137,22 @@ if __name__=="__main__":
 
                 print s
             #if not np.array_equal(previous_mat, mat):
-            if flag2 == 1:
-                flag2 = 0
-                route_length, route_path = pathPlanning.play(mat)
-                #    previous_mat=mat
-                    #print "route length = ", route_length
-                path = np.asarray(route_path)
-                print "route path   = ", route_path
-                path_x = np.ndarray.tolist(path[:,0])
-                path_y = np.ndarray.tolist(path[:,1])
-                route_msg = route()
-                route_msg.x = path_x
-                route_msg.y = path_y
-                route_path_publisher.publish(route_msg)
+
+
+            route_length, route_path = pathPlanning.play(mat)
+            #    previous_mat=mat
+                #print "route length = ", route_length
+            path = np.asarray(route_path)
+            print "route path   = ", route_path
+            path_x = np.ndarray.tolist(path[:,0])
+            path_y = np.ndarray.tolist(path[:,1])
+            route_msg = route()
+            route_msg.x = path_x
+            route_msg.y = path_y
+            route_path_publisher.publish(route_msg)
 
     	    mat=np.zeros((12, 18), dtype=np.uint64)
-            flag2 = 1
+
     	    #traj_time, traj_x, traj_y, traj_x_dot, traj_y_dot = pathPlanning.curve_fit(np.asarray(route_path))
             #pathPlanning.curve_fit(np.asarray(route_path))
             #Robot.kinematic_model()
