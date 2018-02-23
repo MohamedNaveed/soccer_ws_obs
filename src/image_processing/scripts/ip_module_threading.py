@@ -1,9 +1,14 @@
 #!/usr/bin/env python
+from __future__ import print_function
 import cv2
 import numpy as np
 import math
 import time
 from copy import deepcopy
+from imutils.video import FileVideoStream
+from imutils.video import FPS
+import argparse
+import imutils
 
 FULL_WIDTH = 1920
 FULL_HEIGHT = 1080
@@ -11,27 +16,46 @@ FULL_HEIGHT = 1080
 FINAL_WIDTH  = 1100
 FINAL_HEIGHT = 620
 
-LEFT_TOP = [175,26]
+LEFT_TOP = [195,5]
 RIGHT_TOP = [1775,12]
-RIGHT_BOTTOM = [1800,940]
-LEFT_BOTTOM = [220,1030]
+RIGHT_BOTTOM = [1791,925]
+LEFT_BOTTOM = [220,991]
 
 MAT = np.array((12, 18), dtype=np.uint64)
 class IP(object):
 
     def __init__(self):
-        self.cap = cv2.VideoCapture(1)
-        self.cap.set(3,FULL_WIDTH) #3 - WIDTH
-        self.cap.set(4,FULL_HEIGHT)  #4 - HEIGHT
+        #self.cap = cv2.VideoCapture(1)
+
+        self.fvs = FileVideoStream(1,128)
+
+        #self.fvs.stream.set(3,FULL_WIDTH)
+        #self.fvs.stream.set(4,FULL_HEIGHT)
+
+        self.fvs.start()
+
+        #self.fvs = FileVideoStream(0).start
+
+        # self.cap.set(3,FULL_WIDTH) #3 - WIDTH
+        # self.cap.set(4,FULL_HEIGHT)  #4 - HEIGHT
 
 
     def get_image(self):
-        ret,image = self.cap.read()
-        while not np.size(image,0) == FULL_HEIGHT or not np.size(image,1) == FULL_WIDTH:
-            print "trying"
-            ret,image = self.cap.read()
-        return image
+        #ret,image = self.cap.read()
         # print image
+        image = self.fvs.read()
+        i = 0
+        #image = np.dstack([image, image, image])
+        #print ("SHAPE : ",image.shape)
+    	image = imutils.resize(image, width=FULL_WIDTH) #,height=FULL_HEIGHT)
+        print ("SHAPE : ",image.shape)
+        # while not np.size(image,0) == FULL_HEIGHT or not np.size(image,1) == FULL_WIDTH :
+        #      print ("trying",i)
+        #      print ("SHAPE : ",image.shape)
+        #      i += 1
+        #      image = self.fvs.read()
+        #      #ret,image = self.cap.read()
+        return image
 
     def perspective_transform(self,image,pts1,pts2):
         return cv2.warpPerspective(image,cv2.getPerspectiveTransform(pts1,pts2),(FINAL_WIDTH,FINAL_HEIGHT))
@@ -49,6 +73,7 @@ class IP(object):
         cv2.imshow(window_name,image)
         if cv2.waitKey(1) == ord('q'):
             cv2.destroyAllWindows()
+            self.fvs.stop()
             return 0
         return 1
 
@@ -82,42 +107,42 @@ class IP(object):
         return cv2.inRange(image, lower, upper)
 
     def end_all(self):
-        self.cap.release()
+        self.fvs.release()
         cv2.destroyAllWindows()
 
     def draw_grid(self,im2,x_grid_num,y_grid_num):
-	#ret,frame = self.cap.read()
-	row = [0 for i in range(18)]
-	mat = np.zeros((12, 18), dtype=np.uint64)
-	#for i in range(12):
-	#	mat.append([])
+    	#ret,frame = self.cap.read()
+    	row = [0 for i in range(18)]
+    	mat = np.zeros((12, 18), dtype=np.uint64)
+    	#for i in range(12):
+    	#	mat.append([])
         X = im2.shape[1]
-	Y = im2.shape[0]
-	start_x = 0
-	start_y = 0
-	end_x = X/18
-	end_y = Y/12
+    	Y = im2.shape[0]
+    	start_x = 0
+    	start_y = 0
+    	end_x = X/18
+    	end_y = Y/12
 
-	for i in range(18):
-		for j in range(12):
-			if i not in range(x_grid_num-1, x_grid_num+2) or j not in range(y_grid_num-1, y_grid_num+2) :
-	   			im2 = cv2.rectangle(im2,(start_x+(X/18)*i,start_y+(Y/12)*j),(end_x+(X/18)*i,end_y+(Y/12)*j),(0,0,255))
-				mat[j][i] = 0
-			else :
-	   			im2 = cv2.rectangle(im2,(start_x+(X/18)*i,start_y+(Y/12)*j),(end_x+(X/18)*i,end_y+(Y/12)*j),(0,0,255),-1)
-				mat[j][i] = 1
-				#print "HI", mat[j][i]
-	'''
-	print "Printing mat..."
-	for i in range(12):
-		s = ""
-		for j in range(18):
-			s += str(mat[i][j]) + " "
-		print s
-	'''
-	MAT = np.copy(mat)
-	#print "MAT.shape", MAT.shape
-	return im2,MAT
+    	for i in range(18):
+    		for j in range(12):
+    			if i not in range(x_grid_num-1, x_grid_num+2) or j not in range(y_grid_num-1, y_grid_num+2) :
+    	   			im2 = cv2.rectangle(im2,(start_x+(X/18)*i,start_y+(Y/12)*j),(end_x+(X/18)*i,end_y+(Y/12)*j),(0,0,255))
+    				mat[j][i] = 0
+    			else :
+    	   			im2 = cv2.rectangle(im2,(start_x+(X/18)*i,start_y+(Y/12)*j),(end_x+(X/18)*i,end_y+(Y/12)*j),(0,0,255),-1)
+    				mat[j][i] = 1
+    				#print "HI", mat[j][i]
+    	'''
+    	print "Printing mat..."
+    	for i in range(12):
+    		s = ""
+    		for j in range(18):
+    			s += str(mat[i][j]) + " "
+    		print s
+    	'''
+    	MAT = np.copy(mat)
+    	#print "MAT.shape", MAT.shape
+    	return im2,MAT
     '''
     def point_polygon_test(self,contour,pt,measureDist):
 	return cv2.pointPolygonTest(contour, pt, measureDist)
@@ -129,7 +154,7 @@ class detectRobot(IP):
         self.pts_in_img = np.float32([LEFT_TOP,RIGHT_TOP,RIGHT_BOTTOM,LEFT_BOTTOM])
         self.pts_reqd = np.float32([[0,0],[FINAL_WIDTH,0],[FINAL_WIDTH,FINAL_HEIGHT],[0,FINAL_HEIGHT]])
         self.cx_bot_old = 0
-	self.cy_bot_old = 0
+        self.cy_bot_old = 0
         self.cx_bot = 0
         self.cy_bot = 0
         self.vx_bot_pixel = 0;  self.vy_bot_pixel = 0
@@ -178,7 +203,7 @@ class Ball(detectRobot):
     def __init__(self):
         super(Ball,self).__init__()
         self.fps = 28
-        #self.update_fps(60)
+        self.update_fps(60)
 
         self.lower_ball = np.array([23,52,230])
         self.upper_ball = np.array([40,120,260])
@@ -193,22 +218,22 @@ class Ball(detectRobot):
 
         self.dir = 0;       self.destination = (100,310)
 
-    def update_fps(self,num_frames=120):
-        print "Checking fps..."
-        print "Capturing {0} frames".format(num_frames)
+    def update_fps(self,num_frames=120) :
+        print ("Checking fps...")
+        print ("Capturing {0} frames".format(num_frames))
         # Start time
         start = time.time()
         # Grab a few frames
         for i in xrange(0, num_frames) :
-            ret, frame = self.cap.read()
+            frame = self.fvs.read()
         # End time
         end = time.time()
         # Time elapsed
         seconds = end - start
-        print "Time taken : {0} seconds".format(seconds)
+        print ("Time taken : {0} seconds".format(seconds))
         # Calculate frames per second
         fps  = num_frames / seconds;
-        print "Estimated frames per second : {0}".format(fps);
+        print ("Estimated frames per second : {0}".format(fps));
         self.fps = fps
 
     def update_state(self,cx,cy):
@@ -251,3 +276,5 @@ class Ball(detectRobot):
 
     def abs_vel(self):
         return math.sqrt(self.vx_pixel**2+self.vy_pixel**2)
+if __name__=="__main__" :
+    test = Ball()

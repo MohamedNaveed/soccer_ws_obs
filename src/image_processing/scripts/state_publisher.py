@@ -24,8 +24,8 @@ if __name__=="__main__":
         flag = 0    #why?
         bot3_x = 1 #why?
         bot3_y = 1
-        goal_x = 9
-        goal_y = 15
+        goal_x = 5
+        goal_y = 9
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
         ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=1)
         ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=1)
@@ -42,7 +42,7 @@ if __name__=="__main__":
 
         while not rospy.is_shutdown():
             original_image = ball_object.get_image()
-
+            #ball_object.display_image(original_image)
             image = ball_object.perspective_transform(original_image,ball_object.pts_in_img,ball_object.pts_reqd)
             im2 = image
             X = im2.shape[1]
@@ -89,6 +89,7 @@ if __name__=="__main__":
                         for j in range(len(cropped_contours)):
 
                             area_small = ball_object.find_area(cropped_contours[j])
+                            #if area_small > 100 and area < 600:
                             print "area_small:", area_small
                             if cropped_hierarchy[0][j][2] == -1 and cropped_hierarchy[0][j][3] != -1:
                                 count += 1

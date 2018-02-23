@@ -12,8 +12,9 @@ from time import sleep
 WHEEL_RADIUS = 5   #cm
 BOT_RADIUS = 13.5  #cm
 MIN_VEL = 30
-MIN_VEL_GTG = 85
+MIN_VEL_GTG = 95
 bot_1=0001
+MAX_WH_VEL = 8.5
 #ser = serial.Serial('/dev/ttyUSB0',115200)
 #x_dot robot moves up
 #y_dot robot moves left
@@ -130,17 +131,17 @@ class robot:
         print "Velocity_wheels b4 scaling  :",vel_w_1,vel_w_2,vel_w_3
 
         if(vel_w_1>0.001):
-            vel_w_1 = (vel_w_1/125)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG  # changed factor from 8.5 to 125 (due to increase in max(x_dot),max(y_dot) after including Kp)
+            vel_w_1 = (vel_w_1/MAX_WH_VEL)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG  # changed factor from 8.5 to 125 (due to increase in max(x_dot),max(y_dot) after including Kp)
         elif(vel_w_1<-0.001):
-            vel_w_1 = (vel_w_1/125)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+            vel_w_1 = (vel_w_1/MAX_WH_VEL)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
         if(vel_w_2>0.001):
-            vel_w_2 = (vel_w_2/125)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+            vel_w_2 = (vel_w_2/MAX_WH_VEL)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
         elif(vel_w_2<-0.001):
-            vel_w_2 = (vel_w_2/125)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+            vel_w_2 = (vel_w_2/MAX_WH_VEL)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
         if(vel_w_3>0.001):
-            vel_w_3 = (vel_w_3/125)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
+            vel_w_3 = (vel_w_3/MAX_WH_VEL)*(255 - MIN_VEL_GTG) + MIN_VEL_GTG
         elif(vel_w_3<-0.001):
-            vel_w_3 = (vel_w_3/125)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
+            vel_w_3 = (vel_w_3/MAX_WH_VEL)*(255 - MIN_VEL_GTG) - MIN_VEL_GTG
 
 
         max_val = max(abs(vel_w_1),abs(vel_w_2),abs(vel_w_3))
