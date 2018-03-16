@@ -3,8 +3,8 @@ import numpy as np
 import heapq
 import matplotlib.pyplot as plt
 # no of rows and columns in grid
-rows = 12
-columns = 18
+rows = 14 #mat_size_1
+columns = 21 #mat_size_2
 
 
 def grid_map(img):
@@ -66,7 +66,7 @@ class Astar(object):
                     self.start = self.cell(i, j)
                 if(grid[i][j] == 3):
                     self.end = self.cell(i, j)
-	print "initialised"
+	# print "initialised"
 
     def cell(self, x, y):
         # returns the location to identify each cell
@@ -174,14 +174,20 @@ def curve_fit(x,y):
 	#x_new = np.linspace(x[0], x[-1], 50)
 	#y_new = f(x_new)
     time_x=np.zeros(len(x))
+    time_x[0] = (0.5/8)
+    for i in range(1, len(x)):
+        time_x[i] = time_x[i-1] + (0.5/8) # found this suitable after trial and error
 
-    for i in range(len(x)):
-        if i != 0:
-            time_x[i] = time_x[i-1] + (0.5/8) # found this suitable after trial and error
-        else:
-            time_x[i] = (0.5/8)
-    order = 9
+    order = 4 #len(x) - 3
     time_x_new = np.linspace(time_x[0], time_x[-1], 3*len(x))
+
+
+
+    y_coeff = np.polyfit(time_x, y, order)
+    func_y = np.poly1d(y_coeff)
+    func_y_dot = func_y.deriv()
+    new_y = func_y(time_x_new)
+    new_y_dot = func_y_dot(time_x_new)
 
     x_coeff = np.polyfit(time_x, x, order)
     func_x = np.poly1d(x_coeff)
@@ -189,13 +195,22 @@ def curve_fit(x,y):
     new_x = func_x(time_x_new)
     new_x_dot = func_x_dot(time_x_new)
 
-    y_coeff = np.polyfit(time_x, y, order)
-    func_y = np.poly1d(y_coeff)
-    func_y_dot = func_y.deriv()
-    new_y = func_y(time_x_new)
-    new_y_dot = func_y_dot(time_x_new)
-    # plt.plot(time_x_new, new_y, 'o', time_x_new, new_x, 'x')
-    # plt.plot(time_x_new, new_y_dot, 'o', time_x_new, new_x_dot, 'x')
+    # plt.figure(1)
+    # plt.plot(time_x_new, new_y, 'o')
+    # plt.xlabel('time')
+    # plt.ylabel('bot y')
+    # plt.figure(2)
+    # plt.plot(time_x_new, new_x, 'x')
+    # plt.xlabel('time')
+    # plt.ylabel('bot x')
+    # plt.figure(3)
+    # plt.plot(time_x_new, new_y_dot, 'o')
+    # plt.xlabel('time')
+    # plt.ylabel('y_dot')
+    # plt.figure(4)
+    # plt.plot(time_x_new, new_x_dot, 'x')
+    # plt.xlabel('time')
+    # plt.ylabel('x_dot')
     # plt.show()
 
     return time_x_new, new_x, new_y, new_x_dot, new_y_dot

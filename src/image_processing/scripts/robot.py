@@ -12,7 +12,7 @@ from time import sleep
 WHEEL_RADIUS = 5   #cm
 BOT_RADIUS = 13.5  #cm
 MIN_VEL = 30
-MIN_VEL_GTG = 95
+MIN_VEL_GTG = 90
 bot_1=0001
 MAX_WH_VEL = 8.5
 #ser = serial.Serial('/dev/ttyUSB0',115200)
@@ -121,12 +121,12 @@ class robot:
         #print "State : " , self.state
 #Maxvelocity = 44cm/s
 #MaxValue = 8.5
-    def kinematic_model(self,x_dot=0, y_dot=0, w=0,solenoid=0,dribbler=0):
+    def kinematic_model(self,x_dot=20, y_dot=0, w=0,solenoid=0,dribbler=0):
         #print "kinematic model called:", x_dot, y_dot, w
         #print "pose angle:", self.state[2]
-        vel_w_1 = (((-1*math.sin((30+self.state[2])*math.pi/180)*x_dot) + math.cos((30+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
-        vel_w_2 = (((-1*math.sin((-90+self.state[2])*math.pi/180)*x_dot) + math.cos((-90+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel
-        vel_w_3 = (((-1*math.sin((150+self.state[2])*math.pi/180)*x_dot) + math.cos((150+self.state[2])*math.pi/180)*y_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel
+        vel_w_1 = (((-1*math.sin((30+self.state[2])*math.pi/180)*y_dot) + math.cos((30+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # right_wheel  wrt dribbler
+        vel_w_2 = (((-1*math.sin((-90+self.state[2])*math.pi/180)*y_dot) + math.cos((-90+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # left_wheel
+        vel_w_3 = (((-1*math.sin((150+self.state[2])*math.pi/180)*y_dot) + math.cos((150+self.state[2])*math.pi/180)*x_dot + self.bot_radius*w)/self.wheel_radius); # back_wheel
 
         print "Velocity_wheels b4 scaling  :",vel_w_1,vel_w_2,vel_w_3
 

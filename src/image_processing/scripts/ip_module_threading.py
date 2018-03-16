@@ -27,10 +27,10 @@ class IP(object):
     def __init__(self):
         #self.cap = cv2.VideoCapture(1)
 
-        self.fvs = FileVideoStream(1,128)
+        self.fvs = FileVideoStream(1)
 
-        #self.fvs.stream.set(3,FULL_WIDTH)
-        #self.fvs.stream.set(4,FULL_HEIGHT)
+        # self.fvs.stream.set(3,FULL_WIDTH)
+        # self.fvs.stream.set(4,FULL_HEIGHT)
 
         self.fvs.start()
 

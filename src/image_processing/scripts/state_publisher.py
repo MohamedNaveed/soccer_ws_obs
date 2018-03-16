@@ -14,6 +14,8 @@ from image_processing.msg import bot_state
 from image_processing.msg import route
 SOFT_LIMIT_POSITIVE = 700
 SOFT_LIMIT_NEGATIVE = 400
+mat_size_2 = 21
+mat_size_1 = 14
 
 if __name__=="__main__":
     try:
@@ -24,8 +26,9 @@ if __name__=="__main__":
         flag = 0    #why?
         bot3_x = 1 #why?
         bot3_y = 1
-        goal_x = 5
-        goal_y = 9
+        goal_y = int(raw_input("goal_y:"))
+        goal_x = int(raw_input("goal_x:"))
+        found_ball = 0
         state_publisher = rospy.Publisher('bot_states',bot_state,queue_size=1)
         ball_state_publisher = rospy.Publisher('ball_state',ball,queue_size=1)
         ball_prediction_publisher = rospy.Publisher('ball_predicts',ball_predict,queue_size=1)
@@ -35,22 +38,25 @@ if __name__=="__main__":
         centroid = (0,0)
         centroid_small = (0,0)
 
-        mat = np.zeros((12, 18), dtype=np.uint64)
-        previous_mat = np.zeros((12, 18), dtype=np.uint64)
-        MAT = np.zeros((12, 18), dtype=np.uint64)
+        mat = np.zeros((mat_size_1, mat_size_2), dtype=np.uint64)
+        previous_mat = np.zeros((mat_size_1, mat_size_2), dtype=np.uint64)
+        MAT = np.zeros((mat_size_1, mat_size_2), dtype=np.uint64)
 
 
         while not rospy.is_shutdown():
             original_image = ball_object.get_image()
-            #ball_object.display_image(original_image)
+            #ball_object.display_image(original_image,"original_image")
             image = ball_object.perspective_transform(original_image,ball_object.pts_in_img,ball_object.pts_reqd)
             im2 = image
             X = im2.shape[1]
             Y = im2.shape[0]
             start_x = 0
             start_y = 0
-            end_x = X/18
-            end_y = Y/12
+            end_x = X/mat_size_2
+            end_y = Y/mat_size_1
+            if found_ball == 0 :
+                x_grid_num_ball = goal_x
+                y_grid_num_ball = goal_y
             #im2 = ball_object.draw_grid(im2)
             imageGray = ball_object.rgb2gray(image)
             ret,thresh = ball_object.threshold_image(imageGray,245,255)
@@ -64,12 +70,12 @@ if __name__=="__main__":
                 c = contours[i]
     	        cv2.drawContours(image, [c], -1, (0, 255, 0), 2)
                 area = ball_object.find_area(contours[i])
-                print i,area
+                #print i,area
 
                 if area > 3300 and area < 5200:
                     centroid = ball_object.get_center(contours[i])
 
-                    x_grid_num, y_grid_num = centroid[0]/end_x, centroid[1]/end_y
+                    x_grid_num_bot, y_grid_num_bot = centroid[0]/end_x, centroid[1]/end_y
 
                     if centroid != -1:
 
@@ -90,7 +96,7 @@ if __name__=="__main__":
 
                             area_small = ball_object.find_area(cropped_contours[j])
                             #if area_small > 100 and area < 600:
-                            print "area_small:", area_small
+                            #print "area_small:", area_small
                             if cropped_hierarchy[0][j][2] == -1 and cropped_hierarchy[0][j][3] != -1:
                                 count += 1
 
@@ -100,7 +106,7 @@ if __name__=="__main__":
                         print "count = ", count
                         if count == 3:
                             bot3_x, bot3_y = centroid[0]/end_x, centroid[1]/end_y
-                            print "BOT 3" , bot3_x , bot3_y
+                            # print "BOT 3 grid point " , bot3_y , bot3_x
                             mat[int(bot3_y)][int(bot3_x)]=2
                             #print "start assigned"
                             ball_object.update_bot_state(centroid[0],centroid[1])
@@ -108,7 +114,7 @@ if __name__=="__main__":
 
                         else :
                             #print "b4 MAT" , count
-                            im2,MAT = ball_object.draw_grid(im2,int(x_grid_num),int(y_grid_num))
+                            im2,MAT = ball_object.draw_grid(im2,int(x_grid_num_bot),int(y_grid_num_bot))
 
                         yaw_angle = ball_object.get_yaw_angle(40,40,centroid_small[0],centroid_small[1])
                         #print "State: ", centroid[0],centroid[1],yaw_angle
@@ -125,47 +131,38 @@ if __name__=="__main__":
  		#for i in range(12):
 		#	mat.append(row)
 
-                    mat = mat | MAT
-                if mat[goal_x][goal_y] != 2:
-                    mat[goal_x][goal_y]=3 #goal position
+                    for i in range(mat_size_1):
+                        for j in range(mat_size_2):
+                            if mat[i][j] != 2 and mat[i][j] != 3:
+                                mat[i][j] = mat[i][j] | MAT[i][j]
+
+                    # mat = mat | MAT
 
 
-            print "Printing mat..."
-            for i in range(12):
-                s = ""
-                for j in range(18):
-                    s += str(mat[i][j]) + " "
 
-                print s
+
             #if not np.array_equal(previous_mat, mat):
 
-
-            route_length, route_path = pathPlanning.play(mat)
-            #    previous_mat=mat
-                #print "route length = ", route_length
-            path = np.asarray(route_path)
-            print "route path   = ", route_path
-            path_x = np.ndarray.tolist(path[:,0])
-            path_y = np.ndarray.tolist(path[:,1])
-            route_msg = route()
-            route_msg.x = path_x
-            route_msg.y = path_y
-            route_path_publisher.publish(route_msg)
-
-    	    mat=np.zeros((12, 18), dtype=np.uint64)
 
     	    #traj_time, traj_x, traj_y, traj_x_dot, traj_y_dot = pathPlanning.curve_fit(np.asarray(route_path))
             #pathPlanning.curve_fit(np.asarray(route_path))
             #Robot.kinematic_model()
-    	    hsv_image = ball_object.rgb2hsv(image)
+            hsv_image = ball_object.rgb2hsv(image)
             mask_ball = ball_object.get_hsv_mask(hsv_image,ball_object.lower_ball,ball_object.upper_ball)
             contours_ball,hierarchy = ball_object.find_contours(mask_ball)
 
             for i in range(len(contours_ball)):
                 area = ball_object.find_area(contours_ball[i])
-                # print i,area
-                if area > 60:
+                print i,area
+                if area > 0.2: # previously : area > 60
+                    found_ball = 1
+                    # print "found_ball = 1"
                     centroid_ball = ball_object.get_center(contours_ball[i])
+                    x_grid_num_ball, y_grid_num_ball = int(centroid_ball[0]/end_x), int(centroid_ball[1]/end_y)
+
+                else :
+                    found_ball = 0
+
     		    #i,j=5,5
     		    #cnt = cv2.rectangle(im2,(start_x+(X/9)*i,start_y+(Y/6)*j),(end_x+(X/9)*i,end_y+(Y/6)*j),(0,0,255))
     		    #print point_polygon_test(cnt,centroid_ball,False)
@@ -173,11 +170,11 @@ if __name__=="__main__":
                         break
                     ball_object.update_state(centroid_ball[0],centroid_ball[1])
                     #print (ball_object.cx,ball_object.cy),ball_object.get_velocity()
-                    if ball_object.abs_vel() > 10:
-                        ball_object.draw_arrow(image)
+                    # if ball_object.abs_vel() > 10:
+                    #     ball_object.draw_arrow(image)
 
                     # imaginary lines
-                ball_object.prediction_lines(image)
+                # ball_object.prediction_lines(image)
 
                 ball_msg = ball()
                 ball_msg.x = ball_object.cx
@@ -188,7 +185,7 @@ if __name__=="__main__":
                 ball_state_publisher.publish(ball_msg)
 
                 msg = ball_predict()
-                    # print ball_object.get_prediction(image)
+                # print ball_object.get_prediction(image)
                 destination = ball_object.get_prediction(image)
                 #print destination
                 if destination == -1:
@@ -207,6 +204,35 @@ if __name__=="__main__":
 
                 ball_prediction_publisher.publish(msg)
                 rospy.loginfo(msg)
+
+            # if mat[goal_x][goal_y] != 2:
+
+            if mat[y_grid_num_ball][x_grid_num_ball] != 2 :
+                mat[y_grid_num_ball][x_grid_num_ball] = 3 #goal position
+                route_length, route_path = pathPlanning.play(mat)
+                #    previous_mat=mat
+                    #print "route length = ", route_length
+                path = np.asarray(route_path)
+                # print "route path   = ", route_path
+                path_y = np.ndarray.tolist(path[:,0])
+                path_x = np.ndarray.tolist(path[:,1])
+                route_msg = route()
+                route_msg.x = path_x
+                route_msg.y = path_y
+                route_path_publisher.publish(route_msg)
+
+            print "Printing mat..."
+            for i in range(mat_size_1):
+                s = ""
+                for j in range(mat_size_2):
+                    s += str(mat[i][j]) + " "
+
+                print s
+
+
+    	    mat=np.zeros((mat_size_1, mat_size_2), dtype=np.uint64)
+
+            # print y_grid_num_ball,x_grid_num_ball
 
             if not ball_object.display_image(image):
                 flag = 1

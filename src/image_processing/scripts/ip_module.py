@@ -11,12 +11,13 @@ FULL_HEIGHT = 1080
 FINAL_WIDTH  = 1100
 FINAL_HEIGHT = 620
 
-LEFT_TOP = [175,26]
-RIGHT_TOP = [1775,12]
-RIGHT_BOTTOM = [1800,940]
-LEFT_BOTTOM = [220,1030]
-
-MAT = np.array((12, 18), dtype=np.uint64)
+LEFT_TOP = [226,112]#[199,101]#[165,5]
+RIGHT_TOP = [1810,12]#[1800,13]#[1571,22]
+RIGHT_BOTTOM = [1862,1010]#[1815,960]#[1583,830]
+LEFT_BOTTOM = [250,1030]#[171,900]
+mat_size_1 = 14
+mat_size_2 = 21
+MAT = np.array((mat_size_1, mat_size_2), dtype=np.uint64)
 class IP(object):
 
     def __init__(self):
@@ -88,23 +89,23 @@ class IP(object):
     def draw_grid(self,im2,x_grid_num,y_grid_num):
 	#ret,frame = self.cap.read()
 	row = [0 for i in range(18)]
-	mat = np.zeros((12, 18), dtype=np.uint64)
+	mat = np.zeros((mat_size_1, mat_size_2), dtype=np.uint64)
 	#for i in range(12):
 	#	mat.append([])
         X = im2.shape[1]
 	Y = im2.shape[0]
 	start_x = 0
 	start_y = 0
-	end_x = X/18
-	end_y = Y/12
+	end_x = X/mat_size_2
+	end_y = Y/mat_size_1
 
-	for i in range(18):
-		for j in range(12):
-			if i not in range(x_grid_num-1, x_grid_num+2) or j not in range(y_grid_num-1, y_grid_num+2) :
-	   			im2 = cv2.rectangle(im2,(start_x+(X/18)*i,start_y+(Y/12)*j),(end_x+(X/18)*i,end_y+(Y/12)*j),(0,0,255))
+	for i in range(mat_size_2):
+		for j in range(mat_size_1):
+			if i not in range(x_grid_num-2, x_grid_num+3) or j not in range(y_grid_num-2, y_grid_num+3) :
+	   			im2 = cv2.rectangle(im2,(start_x+(X/mat_size_2)*i,start_y+(Y/mat_size_1)*j),(end_x+(X/mat_size_2)*i,end_y+(Y/mat_size_1)*j),(0,0,255))
 				mat[j][i] = 0
 			else :
-	   			im2 = cv2.rectangle(im2,(start_x+(X/18)*i,start_y+(Y/12)*j),(end_x+(X/18)*i,end_y+(Y/12)*j),(0,0,255),-1)
+	   			im2 = cv2.rectangle(im2,(start_x+(X/mat_size_2)*i,start_y+(Y/mat_size_1)*j),(end_x+(X/mat_size_2)*i,end_y+(Y/mat_size_1)*j),(0,0,255),-1)
 				mat[j][i] = 1
 				#print "HI", mat[j][i]
 	'''
@@ -180,8 +181,8 @@ class Ball(detectRobot):
         self.fps = 28
         #self.update_fps(60)
 
-        self.lower_ball = np.array([23,52,230])
-        self.upper_ball = np.array([40,120,260])
+        self.lower_ball = np.array([20,40,210])
+        self.upper_ball = np.array([40,160,256])
 
         self.vx_pixel = 0;  self.vy_pixel = 0
 
@@ -244,10 +245,12 @@ class Ball(detectRobot):
             dest_y = self.cy + time_to_line*self.vy_pixel
             if dest_y < 0 or dest_y > FINAL_WIDTH:
                 return -1
-            cv2.circle(image,(int(self.sides[self.dir][0][0]),int(dest_y)), 5, (0,0,255), -1)
+            # cv2.circle(image,(int(self.sides[self.dir][0][0]),int(dest_y)), 5, (0,0,255), -1)
             self.destination = self.sides[self.dir][0][0],dest_y
-            cv2.putText(image,str(self.destination),(int(self.destination[0]),int(self.destination[1])), self.font, 0.5,(255,255,0),2,cv2.LINE_AA)
+            # cv2.putText(image,str(self.destination),(int(self.destination[0]),int(self.destination[1])), self.font, 0.5,(255,255,0),2,cv2.LINE_AA)
         return self.destination
 
     def abs_vel(self):
         return math.sqrt(self.vx_pixel**2+self.vy_pixel**2)
+if __name__=="__main__" :
+    test = Ball()
